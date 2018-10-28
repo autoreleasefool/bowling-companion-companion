@@ -12,6 +12,7 @@
 		CA7BE8532186068D0002F8A2 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CA7BE8512186068D0002F8A2 /* Main.storyboard */; };
 		CA7BE8552186068E0002F8A2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CA7BE8542186068E0002F8A2 /* Assets.xcassets */; };
 		CA7BE8582186068E0002F8A2 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CA7BE8562186068E0002F8A2 /* LaunchScreen.storyboard */; };
+		CA9DFC9221860DFE0059AF60 /* FunctionalTableData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CA9DFC9121860DFE0059AF60 /* FunctionalTableData.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -22,6 +23,7 @@
 		CA7BE8542186068E0002F8A2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		CA7BE8572186068E0002F8A2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		CA7BE8592186068E0002F8A2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		CA9DFC9121860DFE0059AF60 /* FunctionalTableData.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = FunctionalTableData.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -29,6 +31,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CA9DFC9221860DFE0059AF60 /* FunctionalTableData.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -40,6 +43,7 @@
 			children = (
 				CA7BE84C2186068D0002F8A2 /* BowlingCompanionCompanion */,
 				CA7BE84B2186068D0002F8A2 /* Products */,
+				CA9DFC9021860DFE0059AF60 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -62,6 +66,14 @@
 				CA7BE8592186068E0002F8A2 /* Info.plist */,
 			);
 			path = BowlingCompanionCompanion;
+			sourceTree = "<group>";
+		};
+		CA9DFC9021860DFE0059AF60 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				CA9DFC9121860DFE0059AF60 /* FunctionalTableData.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
