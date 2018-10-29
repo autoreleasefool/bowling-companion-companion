@@ -79,18 +79,10 @@ class AppItemCellView: UIView {
 }
 
 struct AppItemCellState: Equatable {
-	private let appIcon: UIImage
-	private let appName: String
-	private let dailyActiveUsers: Int
-	private let crashes: Int
-	private let serverOnline: Bool
+	private let app: App
 
-	init(appIcon: UIImage, appName: String, dailyActiveUsers: Int, crashes: Int, serverOnline: Bool) {
-		self.appIcon = appIcon
-		self.appName = appName
-		self.dailyActiveUsers = dailyActiveUsers
-		self.crashes = crashes
-		self.serverOnline = serverOnline
+	init(app: App) {
+		self.app = app
 	}
 
 	public static func updateView(_ view: AppItemCellView, state: AppItemCellState?) {
@@ -99,18 +91,26 @@ struct AppItemCellState: Equatable {
 			return
 		}
 
-		view.imageView.image = state.appIcon
-		view.titleLabel.text = state.appName
-		view.dauLabel.text = "\(state.dailyActiveUsers) DAU"
-		view.crashesLabel.text = "\(state.crashes) crashes"
+		view.imageView.image = state.app.icon
+		view.titleLabel.text = state.app.name
+		view.dauLabel.text = "\(state.app.dailyActiveUsers) DAU"
+		view.crashesLabel.text = "\(state.app.crashes) crashes"
 
-		if state.serverOnline {
+		if state.app.serverOnline {
 			view.statusLabel.textColor = Colors.affirmativeGreen
 			view.statusLabel.text = "Online"
 		} else {
 			view.statusLabel.textColor = Colors.dangerRed
 			view.statusLabel.text = "Offline"
 		}
+	}
+
+	public static func ==(lhs: AppItemCellState, rhs: AppItemCellState) -> Bool {
+		return lhs.app.name == rhs.app.name &&
+			lhs.app.icon == rhs.app.icon &&
+			lhs.app.dailyActiveUsers == rhs.app.dailyActiveUsers &&
+			lhs.app.crashes == rhs.app.crashes &&
+			lhs.app.serverOnline == rhs.app.serverOnline
 	}
 }
 
