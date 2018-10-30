@@ -16,7 +16,7 @@ enum ServerStatus: String, Codable {
 
 struct App: Equatable, Hashable, Decodable {
 	private enum CodingKeys: String, CodingKey {
-		case id
+		case id = "ID"
 		case name = "Name"
 		case iconName = "Icon"
 		case serverUrl = "ServerURL"

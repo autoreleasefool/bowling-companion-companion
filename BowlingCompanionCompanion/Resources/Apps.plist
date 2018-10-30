@@ -3,6 +3,8 @@
 <plist version="1.0">
 <array>
 	<dict>
+		<key>ID</key>
+		<string>FIVE_PIN_APP_ID</string>
 		<key>Name</key>
 		<string>5 Pin Bowling Companion</string>
 		<key>Icon</key>
@@ -17,6 +19,8 @@
 		<string>BUGSNAG_API_KEY</string>
 	</dict>
 	<dict>
+		<key>ID</key>
+		<string>TEN_PIN_APP_ID</string>
 		<key>Name</key>
 		<string>10 Pin Bowling Companion</string>
 		<key>Icon</key>
