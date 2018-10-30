@@ -34,10 +34,10 @@ struct Colors {
 	static let primaryDark = UIColor(hexString: "#341F97")
 	static let primaryLight = UIColor(hexString: "#7B3DF4")
 
-	static let background = UIColor(hexString: "#F5F5F5")
+	static let background = UIColor(hexString: "#EBEBEB")
 	static let disabled = UIColor(hexString: "#9B9B9B")
 
-	static let listItem = UIColor(hexString: "#EBEBEB")
+	static let listItem = UIColor(hexString: "#F5F5F5")
 	static let divider = UIColor(hexString: "#000000", alpha: 0.2)
 
 	static let affirmativeGreen = UIColor(hexString: "#27AE60")

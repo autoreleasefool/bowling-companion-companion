@@ -18,13 +18,14 @@ struct Metrics {
 	}
 
 	struct TextSize {
-		static let caption: CGFloat = 10.0
-		static let body: CGFloat = 12.0
-		static let subtitle: CGFloat = 14.0
-		static let title: CGFloat = 18.0
+		static let caption: CGFloat = 12.0
+		static let body: CGFloat = 14.0
+		static let subtitle: CGFloat = 18.0
+		static let title: CGFloat = 20.0
 	}
 
 	struct IconSize {
 		static let standard: CGFloat = 44.0
+		static let header: CGFloat = 48.0
 	}
 }

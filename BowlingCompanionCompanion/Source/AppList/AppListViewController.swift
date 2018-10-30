@@ -25,7 +25,7 @@ class AppListViewController: UIViewController {
 		refreshControl.addTarget(self, action: #selector(refreshAppProperties(_:)), for: .valueChanged)
 		tableView.addSubview(refreshControl)
 
-		tableView.backgroundColor = Colors.listItem
+		tableView.backgroundColor = Colors.background
 
 		tableView.translatesAutoresizingMaskIntoConstraints = false
 		view.addSubview(tableView)
@@ -81,6 +81,7 @@ class AppListViewController: UIViewController {
 
 extension AppListViewController: AppListActionable {
 	func viewApp(app: App) {
-		fatalError("TODO")
+		let appDetailsViewController = AppDetailsViewController(app: app)
+		self.navigationController?.show(appDetailsViewController, sender: self)
 	}
 }
