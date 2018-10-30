@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		CA315389218684DD00C7D9E0 /* App.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA315388218684DD00C7D9E0 /* App.swift */; };
 		CA31538B218732CD00C7D9E0 /* Apps.plist in Resources */ = {isa = PBXBuildFile; fileRef = CA31538A218732CD00C7D9E0 /* Apps.plist */; };
+		CA31538D21880D3700C7D9E0 /* TransferServer.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA31538C21880D3700C7D9E0 /* TransferServer.swift */; };
 		CA7BE84E2186068D0002F8A2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA7BE84D2186068D0002F8A2 /* AppDelegate.swift */; };
 		CA7BE8502186068D0002F8A2 /* AppListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA7BE84F2186068D0002F8A2 /* AppListViewController.swift */; };
 		CA7BE8532186068D0002F8A2 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CA7BE8512186068D0002F8A2 /* Main.storyboard */; };
@@ -24,6 +25,7 @@
 /* Begin PBXFileReference section */
 		CA315388218684DD00C7D9E0 /* App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = App.swift; sourceTree = "<group>"; };
 		CA31538A218732CD00C7D9E0 /* Apps.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Apps.plist; sourceTree = "<group>"; };
+		CA31538C21880D3700C7D9E0 /* TransferServer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransferServer.swift; sourceTree = "<group>"; };
 		CA7BE84A2186068D0002F8A2 /* BowlingCompanionCompanion.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BowlingCompanionCompanion.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CA7BE84D2186068D0002F8A2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		CA7BE84F2186068D0002F8A2 /* AppListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppListViewController.swift; sourceTree = "<group>"; };
@@ -96,7 +98,7 @@
 		CA9DFC93218613630059AF60 /* Source */ = {
 			isa = PBXGroup;
 			children = (
-				CA9DFC96218617AD0059AF60 /* TransferServer */,
+				CA9DFC96218617AD0059AF60 /* Api */,
 				CA9DFC95218617A30059AF60 /* Apps */,
 				CA7BE84D2186068D0002F8A2 /* AppDelegate.swift */,
 				CA9DFC9B218620CA0059AF60 /* Colors.swift */,
@@ -126,11 +128,12 @@
 			path = Apps;
 			sourceTree = "<group>";
 		};
-		CA9DFC96218617AD0059AF60 /* TransferServer */ = {
+		CA9DFC96218617AD0059AF60 /* Api */ = {
 			isa = PBXGroup;
 			children = (
+				CA31538C21880D3700C7D9E0 /* TransferServer.swift */,
 			);
-			path = TransferServer;
+			path = Api;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -208,6 +211,7 @@
 				CA7BE8502186068D0002F8A2 /* AppListViewController.swift in Sources */,
 				CA9DFC9E21862C910059AF60 /* AppListBuilder.swift in Sources */,
 				CA9DFC9C218620CA0059AF60 /* Colors.swift in Sources */,
+				CA31538D21880D3700C7D9E0 /* TransferServer.swift in Sources */,
 				CA9DFC98218617C70059AF60 /* AppItemCell.swift in Sources */,
 				CA7BE84E2186068D0002F8A2 /* AppDelegate.swift in Sources */,
 				CA315389218684DD00C7D9E0 /* App.swift in Sources */,

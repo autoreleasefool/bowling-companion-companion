@@ -79,10 +79,18 @@ class AppItemCellView: UIView {
 }
 
 struct AppItemCellState: Equatable {
-	private let app: App
+	private let appIcon: UIImage
+	private let appName: String
+	private let dailyActiveUsers: Int
+	private let crashes: Int
+	private let serverStatus: TransferServerStatus
 
 	init(app: App) {
-		self.app = app
+		self.appIcon = app.icon
+		self.appName = app.name
+		self.dailyActiveUsers = app.dailyActiveUsers
+		self.crashes = app.crashes
+		self.serverStatus = app.transferServer.status
 	}
 
 	public static func updateView(_ view: AppItemCellView, state: AppItemCellState?) {
@@ -91,19 +99,19 @@ struct AppItemCellState: Equatable {
 			return
 		}
 
-		view.imageView.image = state.app.icon
-		view.titleLabel.text = state.app.name
-		view.dauLabel.text = "\(state.app.dailyActiveUsers) DAU"
-		view.crashesLabel.text = "\(state.app.crashes) crashes"
+		view.imageView.image = state.appIcon
+		view.titleLabel.text = state.appName
+		view.dauLabel.text = "\(state.dailyActiveUsers) DAU"
+		view.crashesLabel.text = "\(state.crashes) crashes"
 
 		let statusColor: UIColor
-		let statusText: String = state.app.serverStatus.rawValue
-		switch state.app.serverStatus {
-		case .loading:
+		let statusText: String = state.serverStatus.rawValue
+		switch state.serverStatus {
+		case .waiting:
 			statusColor = Colors.warningYellow
 		case .online:
 			statusColor = Colors.affirmativeGreen
-		case .offline:
+		case .offline, .error:
 			statusColor = Colors.dangerRed
 		}
 
@@ -112,11 +120,11 @@ struct AppItemCellState: Equatable {
 	}
 
 	public static func ==(lhs: AppItemCellState, rhs: AppItemCellState) -> Bool {
-		return lhs.app.name == rhs.app.name &&
-			lhs.app.iconName == rhs.app.iconName &&
-			lhs.app.dailyActiveUsers == rhs.app.dailyActiveUsers &&
-			lhs.app.crashes == rhs.app.crashes &&
-			lhs.app.serverStatus == rhs.app.serverStatus
+		return lhs.appName == rhs.appName &&
+			lhs.appIcon == rhs.appIcon &&
+			lhs.dailyActiveUsers == rhs.dailyActiveUsers &&
+			lhs.crashes == rhs.crashes &&
+			lhs.serverStatus == rhs.serverStatus
 	}
 }
 

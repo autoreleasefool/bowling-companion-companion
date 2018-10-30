@@ -8,12 +8,6 @@
 
 import UIKit
 
-enum ServerStatus: String, Codable {
-	case online = "Online"
-	case offline = "Offline"
-	case loading = "Loading"
-}
-
 struct App: Equatable, Hashable, Decodable {
 	private enum CodingKeys: String, CodingKey {
 		case id = "ID"
@@ -42,16 +36,22 @@ struct App: Equatable, Hashable, Decodable {
 
 	var crashes: Int = 0
 
-	var serverStatus: ServerStatus = .loading
+	private var _transferServer: TransferServer!
+	var transferServer: TransferServer {
+		return _transferServer
+	}
 
-	init(id: String, name: String, iconName: String, serverUrl: String, serverApiKey: String, mixpanelApiKey: String, bugsnagApiKey: String) {
-		self.id = id
-		self.name = name
-		self.iconName = iconName
-		self.serverUrl = serverUrl
-		self.serverApiKey = serverApiKey
-		self.mixpanelApiKey = mixpanelApiKey
-		self.bugsnagApiKey = bugsnagApiKey
+	public init(from decoder: Decoder) throws {
+		let container = try decoder.container(keyedBy: CodingKeys.self)
+		self.id = try container.decode(String.self, forKey: .id)
+		self.name = try container.decode(String.self, forKey: .name)
+		self.iconName = try container.decode(String.self, forKey: .iconName)
+		self.serverUrl = try container.decode(String.self, forKey: .serverUrl)
+		self.serverApiKey = try container.decode(String.self, forKey: .serverApiKey)
+		self.mixpanelApiKey = try container.decode(String.self, forKey: .mixpanelApiKey)
+		self.bugsnagApiKey = try container.decode(String.self, forKey: .bugsnagApiKey)
+
+		self._transferServer = TransferServer(url: serverUrl, apiKey: serverApiKey)
 	}
 
 	public static func ==(lhs: App, rhs: App) -> Bool {

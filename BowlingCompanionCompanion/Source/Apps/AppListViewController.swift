@@ -40,7 +40,7 @@ class AppListViewController: UIViewController {
 	}
 
 	private func render() {
-		tableData.renderAndDiff(AppListBuilder.sections(apps: apps))
+		tableData.renderAndDiff(AppListBuilder.sections(apps: apps, actionable: self))
 	}
 
 	private func loadApps() {
@@ -51,6 +51,21 @@ class AppListViewController: UIViewController {
 		let appData = try! Data(contentsOf: url)
 		let decoder = PropertyListDecoder()
 		apps = try! decoder.decode([App].self, from: appData)
+		loadProperties(for: apps)
 		render()
+	}
+
+	private func loadProperties(for apps: [App]) {
+		apps.forEach {
+			$0.transferServer.queryStatus { [weak self] in
+				self?.render()
+			}
+		}
+	}
+}
+
+extension AppListViewController: AppListActionable {
+	func viewApp(app: App) {
+		fatalError("TODO")
 	}
 }

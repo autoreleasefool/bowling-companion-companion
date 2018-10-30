@@ -13,12 +13,13 @@ protocol AppListActionable: class {
 }
 
 struct AppListBuilder {
-	static func sections(apps: [App]) -> [TableSection] {
+	static func sections(apps: [App], actionable: AppListActionable) -> [TableSection] {
 		let appCells: [CellConfigType] = apps.map { app in
 			return AppItemCell(
 				key: app.id,
 				style: CellStyle(bottomSeparator: .inset, separatorColor: Colors.divider, highlight: true, accessoryType: .disclosureIndicator, backgroundColor: Colors.background),
-				actions: CellActions(selectionAction: { _ in
+				actions: CellActions(selectionAction: { [weak actionable] _ in
+					actionable?.viewApp(app: app)
 					return .deselected
 				}),
 				state: AppItemCellState(app: app),
