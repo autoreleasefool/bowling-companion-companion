@@ -15,8 +15,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 	func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
 		self.window = UIWindow(frame: UIScreen.main.bounds)
-		let viewController = AppListViewController()
-		self.window?.rootViewController = viewController
+
+		let navigationController = UINavigationController(rootViewController: AppListViewController())
+		navigationController.navigationBar.barTintColor = Colors.primary
+		navigationController.navigationBar.titleTextAttributes = [NSAttributedString.Key.foregroundColor: Colors.Text.primaryWhite]
+
+		self.window?.rootViewController = navigationController
 		self.window?.makeKeyAndVisible()
 		return true
 	}

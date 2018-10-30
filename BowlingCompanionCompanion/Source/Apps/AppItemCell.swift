@@ -22,7 +22,7 @@ class AppItemCellView: UIView {
 		imageView.contentMode = .scaleAspectFit
 		imageView.translatesAutoresizingMaskIntoConstraints = false
 
-		titleLabel.textColor = UIColor.black
+		titleLabel.textColor = Colors.Text.primaryBlack
 		titleLabel.font = UIFont(name: titleLabel.font.fontName, size: Metrics.TextSize.title)
 		titleLabel.translatesAutoresizingMaskIntoConstraints = false
 
