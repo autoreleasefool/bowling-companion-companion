@@ -11,13 +11,19 @@ import UIKit
 
 class AppListViewController: UIViewController {
 
+	private let refreshControl = UIRefreshControl()
 	private let tableView = UITableView()
 	private let tableData = FunctionalTableData()
+
+	private var refreshTime: TimeInterval = 0
 
 	private var apps: [App] = []
 
 	override func viewDidLoad() {
 		super.viewDidLoad()
+
+		refreshControl.addTarget(self, action: #selector(refreshAppProperties(_:)), for: .valueChanged)
+		tableView.addSubview(refreshControl)
 
 		tableView.backgroundColor = Colors.listItem
 
@@ -51,14 +57,23 @@ class AppListViewController: UIViewController {
 		let appData = try! Data(contentsOf: url)
 		let decoder = PropertyListDecoder()
 		apps = try! decoder.decode([App].self, from: appData)
-		loadProperties(for: apps)
 		render()
+
+		refreshAppProperties()
 	}
 
-	private func loadProperties(for apps: [App]) {
+	private func appFinishedStatusQuery() {
+		if apps.allSatisfy({ $0.transferServer.lastStatusCheck > refreshTime }) {
+			refreshControl.endRefreshing()
+			render()
+		}
+	}
+
+	@objc private func refreshAppProperties(_ sender: AnyObject? = nil) {
+		refreshTime = Date().timeIntervalSince1970
 		apps.forEach {
 			$0.transferServer.queryStatus { [weak self] in
-				self?.render()
+				self?.appFinishedStatusQuery()
 			}
 		}
 	}

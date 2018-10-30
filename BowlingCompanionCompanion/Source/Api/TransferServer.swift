@@ -18,7 +18,9 @@ enum TransferServerStatus: String, Codable {
 class TransferServer {
 	private let url: URL
 	private let apiKey: String
+
 	private(set) var status: TransferServerStatus = .waiting
+	private(set) var lastStatusCheck: TimeInterval = 0
 
 	init(url: String, apiKey: String) {
 		self.url = URL(string: url)!
@@ -42,6 +44,7 @@ class TransferServer {
 	func queryStatus(completion: @escaping () -> Void) {
 		let queryRequest = buildURLRequest(for: statusEndpoint)
 		let task = URLSession.shared.dataTask(with: queryRequest) { [weak self] data, response, error in
+			self?.lastStatusCheck = Date().timeIntervalSince1970
 			if let data = data, let response = String(data: data, encoding: .utf8) {
 				if response == "OK" {
 					self?.status = .online
