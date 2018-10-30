@@ -9,15 +9,11 @@
 import FunctionalTableData
 
 protocol AppListActionable: class {
-	func viewApp()
+	func viewApp(app: App)
 }
 
 struct AppListBuilder {
-	static func sections() -> [TableSection] {
-		let apps = [
-			App(id: "ca.josephroque.bowlingcompanion", name: "5 Pin Bowling Companion", iconName: "FivePin")
-		]
-
+	static func sections(apps: [App]) -> [TableSection] {
 		let appCells: [CellConfigType] = apps.map { app in
 			return AppItemCell(
 				key: app.id,

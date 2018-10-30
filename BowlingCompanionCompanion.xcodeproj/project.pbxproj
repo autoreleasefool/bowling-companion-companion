@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		CA315389218684DD00C7D9E0 /* App.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA315388218684DD00C7D9E0 /* App.swift */; };
+		CA31538B218732CD00C7D9E0 /* Apps.plist in Resources */ = {isa = PBXBuildFile; fileRef = CA31538A218732CD00C7D9E0 /* Apps.plist */; };
 		CA7BE84E2186068D0002F8A2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA7BE84D2186068D0002F8A2 /* AppDelegate.swift */; };
 		CA7BE8502186068D0002F8A2 /* AppListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA7BE84F2186068D0002F8A2 /* AppListViewController.swift */; };
 		CA7BE8532186068D0002F8A2 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CA7BE8512186068D0002F8A2 /* Main.storyboard */; };
@@ -22,6 +23,7 @@
 
 /* Begin PBXFileReference section */
 		CA315388218684DD00C7D9E0 /* App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = App.swift; sourceTree = "<group>"; };
+		CA31538A218732CD00C7D9E0 /* Apps.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Apps.plist; sourceTree = "<group>"; };
 		CA7BE84A2186068D0002F8A2 /* BowlingCompanionCompanion.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BowlingCompanionCompanion.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CA7BE84D2186068D0002F8A2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		CA7BE84F2186068D0002F8A2 /* AppListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppListViewController.swift; sourceTree = "<group>"; };
@@ -108,6 +110,7 @@
 			children = (
 				CA7BE8542186068E0002F8A2 /* Assets.xcassets */,
 				CA7BE8562186068E0002F8A2 /* LaunchScreen.storyboard */,
+				CA31538A218732CD00C7D9E0 /* Apps.plist */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -188,6 +191,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CA31538B218732CD00C7D9E0 /* Apps.plist in Resources */,
 				CA7BE8582186068E0002F8A2 /* LaunchScreen.storyboard in Resources */,
 				CA7BE8552186068E0002F8A2 /* Assets.xcassets in Resources */,
 				CA7BE8532186068D0002F8A2 /* Main.storyboard in Resources */,

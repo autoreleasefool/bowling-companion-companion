@@ -96,21 +96,27 @@ struct AppItemCellState: Equatable {
 		view.dauLabel.text = "\(state.app.dailyActiveUsers) DAU"
 		view.crashesLabel.text = "\(state.app.crashes) crashes"
 
-		if state.app.serverOnline {
-			view.statusLabel.textColor = Colors.affirmativeGreen
-			view.statusLabel.text = "Online"
-		} else {
-			view.statusLabel.textColor = Colors.dangerRed
-			view.statusLabel.text = "Offline"
+		let statusColor: UIColor
+		let statusText: String = state.app.serverStatus.rawValue
+		switch state.app.serverStatus {
+		case .loading:
+			statusColor = Colors.warningYellow
+		case .online:
+			statusColor = Colors.affirmativeGreen
+		case .offline:
+			statusColor = Colors.dangerRed
 		}
+
+		view.statusLabel.textColor = statusColor
+		view.statusLabel.text = statusText
 	}
 
 	public static func ==(lhs: AppItemCellState, rhs: AppItemCellState) -> Bool {
 		return lhs.app.name == rhs.app.name &&
-			lhs.app.icon == rhs.app.icon &&
+			lhs.app.iconName == rhs.app.iconName &&
 			lhs.app.dailyActiveUsers == rhs.app.dailyActiveUsers &&
 			lhs.app.crashes == rhs.app.crashes &&
-			lhs.app.serverOnline == rhs.app.serverOnline
+			lhs.app.serverStatus == rhs.app.serverStatus
 	}
 }
 

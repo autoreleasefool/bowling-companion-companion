@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<array>
+	<dict>
+		<key>Name</key>
+		<string>5 Pin Bowling Companion</string>
+		<key>Icon</key>
+		<string>FivePin</string>
+		<key>ServerURL</key>
+		<string>TRANSFER_SERVER_URL</string>
+		<key>ServerApiKey</key>
+		<string>TRANSFER_SERVER_KEY</string>
+		<key>MixpanelApiKey</key>
+		<string>MIXPANEL_API_KEY</string>
+		<key>BugsnagApiKey</key>
+		<string>BUGSNAG_API_KEY</string>
+	</dict>
+	<dict>
+		<key>Name</key>
+		<string>10 Pin Bowling Companion</string>
+		<key>Icon</key>
+		<string>TenPin</string>
+		<key>ServerURL</key>
+		<string>TRANSFER_SERVER_URL</string>
+		<key>ServerApiKey</key>
+		<string>TRANSFER_SERVER_KEY</string>
+		<key>MixpanelApiKey</key>
+		<string>MIXPANEL_API_KEY</string>
+		<key>BugsnagApiKey</key>
+		<string>BUGSNAG_API_KEY</string>
+	</dict>
+</array>
+</plist>
