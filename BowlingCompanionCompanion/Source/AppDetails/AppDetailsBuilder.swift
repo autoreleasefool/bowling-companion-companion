@@ -33,10 +33,10 @@ struct AppDetailsBuilder {
 
 	struct Server {
 		static func section() -> TableSection {
-			let headerLabel = PaddedLabelCell(
+			let headerLabel = SectionHeaderCell(
 				key: "server-header",
-				state: LabelState(text: "Transfer server", textColor: Colors.Text.primaryWhite, backgroundColor: Colors.primaryDark, textSize: Metrics.TextSize.subtitle),
-				cellUpdater: LabelState.updateView
+				state: SectionHeaderCellState(title: "Transfer server"),
+				cellUpdater: SectionHeaderCellState.updateView
 			)
 
 			let apiLabel = PaddedLabelCell(
@@ -59,17 +59,18 @@ struct AppDetailsBuilder {
 				headerLabel,
 				apiLabel,
 				databaseLabel,
-				cronLabel
+				cronLabel,
+				SpacerCell(key: "server-spacer", state: SpacerState(height: Metrics.Spacing.large), cellUpdater: SpacerState.updateView)
 				])
 		}
 	}
 
 	struct Usage {
 		static func section() -> TableSection {
-			let headerLabel = PaddedLabelCell(
+			let headerLabel = SectionHeaderCell(
 				key: "usage-header",
-				state: LabelState(text: "Usage", textColor: Colors.Text.primaryWhite, backgroundColor: Colors.primaryDark, textSize: Metrics.TextSize.subtitle),
-				cellUpdater: LabelState.updateView
+				state: SectionHeaderCellState(title: "Usage"),
+				cellUpdater: SectionHeaderCellState.updateView
 			)
 
 			let dauLabel = PaddedLabelCell(
@@ -87,20 +88,25 @@ struct AppDetailsBuilder {
 			return TableSection(key: "usage", rows: [
 				headerLabel,
 				dauLabel,
-				mauLabel
+				mauLabel,
+				SpacerCell(key: "server-spacer", state: SpacerState(height: Metrics.Spacing.large), cellUpdater: SpacerState.updateView)
 				])
 		}
 	}
 
 	struct Errors {
 		static func section() -> TableSection {
-			let headerLabel = PaddedLabelCell(
+			let headerLabel = SectionHeaderCell(
 				key: "errors-header",
-				state: LabelState(text: "Errors", textColor: Colors.Text.primaryWhite, backgroundColor: Colors.primaryDark, textSize: Metrics.TextSize.subtitle),
-				cellUpdater: LabelState.updateView
+				style: CellStyle(highlight: true, selectionColor: Colors.primaryLight, backgroundColor: Colors.primaryDark),
+				actions: CellActions(selectionAction: { _ in
+					return .deselected
+				}),
+				state: SectionHeaderCellState(title: "Errors", actionText: "View all"),
+				cellUpdater: SectionHeaderCellState.updateView
 			)
 
-			return TableSection(key: "errors", rows: [headerLabel])
+			return TableSection(key: "errors", rows: [headerLabel, SpacerCell(key: "server-spacer", state: SpacerState(height: Metrics.Spacing.large), cellUpdater: SpacerState.updateView)])
 		}
 	}
 }

@@ -31,7 +31,7 @@ struct LabelState: Equatable {
 		}
 
 		if let paddedView = view as? PaddedLabel {
-			paddedView.padding = UIEdgeInsets(top: Metrics.Spacing.base, left: Metrics.Spacing.large, bottom: Metrics.Spacing.base, right: Metrics.Spacing.large)
+			paddedView.padding = UIEdgeInsets(top: Metrics.Spacing.large, left: Metrics.Spacing.large, bottom: Metrics.Spacing.large, right: Metrics.Spacing.large)
 		}
 
 		view.text = state.text

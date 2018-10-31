@@ -27,5 +27,6 @@ struct Metrics {
 	struct IconSize {
 		static let standard: CGFloat = 44.0
 		static let header: CGFloat = 48.0
+		static let action: CGFloat = 24.0
 	}
 }

@@ -55,9 +55,6 @@ class ImageView: UIView {
 	override init(frame: CGRect) {
 		super.init(frame: frame)
 
-		backgroundColor = nil
-
-		imageView.backgroundColor = nil
 		imageView.translatesAutoresizingMaskIntoConstraints = false
 
 		addSubview(imageView)
