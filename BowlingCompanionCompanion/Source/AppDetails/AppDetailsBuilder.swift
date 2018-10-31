@@ -41,11 +41,13 @@ struct AppDetailsBuilder {
 
 			let apiLabel = PaddedLabelCell(
 				key: "server-api",
+				style: CellStyle(bottomSeparator: .inset, separatorColor: Colors.divider),
 				state: LabelState(text: "API Endpoints", textColor: Colors.Text.primaryWhite, backgroundColor: Colors.affirmativeGreen),
 				cellUpdater: LabelState.updateView
 			)
 			let databaseLabel = PaddedLabelCell(
 				key: "server-database",
+				style: CellStyle(bottomSeparator: .inset, separatorColor: Colors.divider),
 				state: LabelState(text: "MongoDB", textColor: Colors.Text.primaryWhite, backgroundColor: Colors.dangerRed),
 				cellUpdater: LabelState.updateView
 			)
@@ -75,7 +77,7 @@ struct AppDetailsBuilder {
 
 			let dauLabel = PaddedLabelCell(
 				key: "usage-dau",
-				style: CellStyle(bottomSeparator: .inset),
+				style: CellStyle(bottomSeparator: .inset, separatorColor: Colors.divider),
 				state: LabelState(text: "256 daily active users"),
 				cellUpdater: LabelState.updateView
 			)
