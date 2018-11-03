@@ -14,10 +14,10 @@ protocol AppListActionable: class {
 
 struct AppListBuilder {
 	static func sections(apps: [App], actionable: AppListActionable) -> [TableSection] {
-		let appCells: [CellConfigType] = apps.map { app in
+		var appCells: [CellConfigType] = apps.map { app in
 			return AppItemCell(
 				key: app.id,
-				style: CellStyle(bottomSeparator: .inset, separatorColor: Colors.divider, highlight: true, accessoryType: .disclosureIndicator, backgroundColor: Colors.listItem),
+				style: CellStyle(bottomSeparator: .inset, separatorColor: Colors.divider, highlight: true, accessoryType: .disclosureIndicator),
 				actions: CellActions(selectionAction: { [weak actionable] _ in
 					actionable?.viewApp(app: app)
 					return .deselected
@@ -26,6 +26,9 @@ struct AppListBuilder {
 				cellUpdater: AppItemCellState.updateView
 			)
 		}
+
+		appCells[appCells.endIndex - 1].style?.bottomSeparator = .full
+		appCells[appCells.endIndex - 1].style?.separatorColor = Colors.divider
 
 		return [TableSection(key: "apps", rows: appCells)]
 	}

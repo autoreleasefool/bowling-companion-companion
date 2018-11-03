@@ -8,11 +8,15 @@
 
 import FunctionalTableData
 
+protocol AppDetailsActionable: class {
+	func resetTransferServer()
+}
+
 struct AppDetailsBuilder {
-	static func sections(app: App) -> [TableSection] {
+	static func sections(app: App, actionable: AppDetailsActionable) -> [TableSection] {
 		return [
 			Image.section(app: app),
-			Server.section(),
+			Server.section(endpoints: app.transferServer.endpoints, actionable: actionable),
 			Usage.section(),
 			Errors.section(),
 		]
@@ -32,38 +36,45 @@ struct AppDetailsBuilder {
 	}
 
 	struct Server {
-		static func section() -> TableSection {
-			let headerLabel = SectionHeaderCell(
-				key: "server-header",
-				state: SectionHeaderCellState(title: "Transfer server"),
-				cellUpdater: SectionHeaderCellState.updateView
-			)
+		static func section(endpoints: [TransferServerEndpoint], actionable: AppDetailsActionable) -> TableSection {
+			var rows: [CellConfigType] = [
+				SectionHeaderCell(
+					key: "server-header",
+					style: CellStyle(topSeparator: .full, separatorColor: Colors.divider, highlight: true, selectionColor: Colors.primaryLight, backgroundColor: Colors.primaryDark),
+					actions: CellActions(selectionAction: { [weak actionable] _ in
+						actionable?.resetTransferServer()
+						return .deselected
+					}),
+					state: SectionHeaderCellState(title: "Transfer server", actionIcon: UIImage(named: "Reset")!),
+					cellUpdater: SectionHeaderCellState.updateView
+				)
+			]
 
-			let apiLabel = PaddedLabelCell(
-				key: "server-api",
-				style: CellStyle(bottomSeparator: .inset, separatorColor: Colors.divider),
-				state: LabelState(text: "API Endpoints", textColor: Colors.Text.primaryWhite, backgroundColor: Colors.affirmativeGreen),
-				cellUpdater: LabelState.updateView
-			)
-			let databaseLabel = PaddedLabelCell(
-				key: "server-database",
-				style: CellStyle(bottomSeparator: .inset, separatorColor: Colors.divider),
-				state: LabelState(text: "MongoDB", textColor: Colors.Text.primaryWhite, backgroundColor: Colors.dangerRed),
-				cellUpdater: LabelState.updateView
-			)
-			let cronLabel = PaddedLabelCell(
-				key: "server-cron",
-				state: LabelState(text: "Cron", textColor: Colors.Text.primaryWhite, backgroundColor: Colors.affirmativeGreen),
-				cellUpdater: LabelState.updateView
-			)
+			endpoints.forEach { endpoint in
+				let backgroundColor = endpoint.status ? Colors.affirmativeGreen : Colors.dangerRed
+				rows.append(PaddedLabelCell(
+					key: endpoint.name,
+					style: CellStyle(bottomSeparator: .inset, separatorColor: Colors.divider),
+					state: LabelState(text: endpoint.name, textColor: Colors.Text.primaryWhite, backgroundColor: backgroundColor),
+					cellUpdater: LabelState.updateView
+				))
+			}
 
-			return TableSection(key: "server", rows: [
-				headerLabel,
-				apiLabel,
-				databaseLabel,
-				cronLabel,
-				SpacerCell(key: "server-spacer", state: SpacerState(height: Metrics.Spacing.large), cellUpdater: SpacerState.updateView)
-				])
+			if rows.count <= 1 {
+				rows.append(PaddedLabelCell(
+					key: "no-endpoints",
+					style: CellStyle(bottomSeparator: .inset, separatorColor: Colors.divider),
+					state: LabelState(text: "No endpoint data", textColor: Colors.Text.primaryBlack),
+					cellUpdater: LabelState.updateView
+				))
+			}
+
+			rows[rows.endIndex - 1].style?.bottomSeparator = .full
+			rows[rows.endIndex - 1].style?.separatorColor = Colors.divider
+
+			rows.append(SpacerCell(key: "server-spacer", state: SpacerState(height: Metrics.Spacing.large), cellUpdater: SpacerState.updateView))
+
+			return TableSection(key: "server", rows: rows)
 		}
 	}
 
@@ -71,6 +82,7 @@ struct AppDetailsBuilder {
 		static func section() -> TableSection {
 			let headerLabel = SectionHeaderCell(
 				key: "usage-header",
+				style: CellStyle(topSeparator: .full, separatorColor: Colors.divider),
 				state: SectionHeaderCellState(title: "Usage"),
 				cellUpdater: SectionHeaderCellState.updateView
 			)
@@ -83,6 +95,7 @@ struct AppDetailsBuilder {
 			)
 			let mauLabel = PaddedLabelCell(
 				key: "usage-mau",
+				style: CellStyle(bottomSeparator: .full, separatorColor: Colors.divider),
 				state: LabelState(text: "1,018 monthly active users"),
 				cellUpdater: LabelState.updateView
 			)
@@ -100,7 +113,7 @@ struct AppDetailsBuilder {
 		static func section() -> TableSection {
 			let headerLabel = SectionHeaderCell(
 				key: "errors-header",
-				style: CellStyle(highlight: true, selectionColor: Colors.primaryLight, backgroundColor: Colors.primaryDark),
+				style: CellStyle(topSeparator: .full, bottomSeparator: .full, highlight: true, selectionColor: Colors.primaryLight, backgroundColor: Colors.primaryDark),
 				actions: CellActions(selectionAction: { _ in
 					return .deselected
 				}),

@@ -28,6 +28,7 @@
 		CA9DFC9A21861B770059AF60 /* Metrics.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA9DFC9921861B770059AF60 /* Metrics.swift */; };
 		CA9DFC9C218620CA0059AF60 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA9DFC9B218620CA0059AF60 /* Colors.swift */; };
 		CA9DFC9E21862C910059AF60 /* AppListBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA9DFC9D21862C910059AF60 /* AppListBuilder.swift */; };
+		CAEADA49218D4447009AC8A2 /* UIViewController+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAEADA48218D4447009AC8A2 /* UIViewController+Extensions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -53,6 +54,7 @@
 		CA9DFC9921861B770059AF60 /* Metrics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Metrics.swift; sourceTree = "<group>"; };
 		CA9DFC9B218620CA0059AF60 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		CA9DFC9D21862C910059AF60 /* AppListBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppListBuilder.swift; sourceTree = "<group>"; };
+		CAEADA48218D4447009AC8A2 /* UIViewController+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extensions.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -71,6 +73,7 @@
 			isa = PBXGroup;
 			children = (
 				CA31538F2188A1B300C7D9E0 /* UINavigationController+Extensions.swift */,
+				CAEADA48218D4447009AC8A2 /* UIViewController+Extensions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -261,6 +264,7 @@
 				CA31539E21891F5900C7D9E0 /* SectionHeader.swift in Sources */,
 				CA7BE8502186068D0002F8A2 /* AppListViewController.swift in Sources */,
 				CA9DFC9E21862C910059AF60 /* AppListBuilder.swift in Sources */,
+				CAEADA49218D4447009AC8A2 /* UIViewController+Extensions.swift in Sources */,
 				CA3153952188AAD700C7D9E0 /* AppDetailsBuilder.swift in Sources */,
 				CA9DFC9C218620CA0059AF60 /* Colors.swift in Sources */,
 				CA3153932188A24D00C7D9E0 /* AppDetailsViewController.swift in Sources */,

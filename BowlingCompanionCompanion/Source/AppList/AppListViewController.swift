@@ -72,7 +72,7 @@ class AppListViewController: UIViewController {
 	@objc private func refreshAppProperties(_ sender: AnyObject? = nil) {
 		refreshTime = Date().timeIntervalSince1970
 		apps.forEach {
-			$0.transferServer.queryStatus { [weak self] in
+			$0.transferServer.queryStatus(urlSessionDelegate: self) { [weak self] in
 				self?.appFinishedStatusQuery()
 			}
 		}

@@ -54,12 +54,29 @@ class AppDetailsViewController: UIViewController {
 	}
 
 	private func render() {
-		tableData.renderAndDiff(AppDetailsBuilder.sections(app: app))
+		tableData.renderAndDiff(AppDetailsBuilder.sections(app: app, actionable: self))
+	}
+
+	private func serviceFinished() {
+		if app.transferServer.lastStatusCheck > refreshTime {
+			refreshControl.endRefreshing()
+			render()
+		}
 	}
 
 	@objc private func refreshAppDetails(_ sender: AnyObject? = nil) {
 		refreshTime = Date().timeIntervalSince1970
-		render()
-		refreshControl.endRefreshing()
+		app.transferServer.queryStatus(urlSessionDelegate: self) { [weak self] in
+			self?.serviceFinished()
+		}
+	}
+}
+
+extension AppDetailsViewController: AppDetailsActionable {
+	func resetTransferServer() {
+		refreshTime = Date().timeIntervalSince1970
+		app.transferServer.restart(urlSessionDelegate: self) { [weak self] in
+			self?.serviceFinished()
+		}
 	}
 }

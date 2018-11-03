@@ -111,7 +111,7 @@ struct AppItemCellState: Equatable {
 			statusColor = Colors.warningYellow
 		case .online:
 			statusColor = Colors.affirmativeGreen
-		case .offline, .error:
+		case .offline, .error, .partiallyOnline:
 			statusColor = Colors.dangerRed
 		}
 
