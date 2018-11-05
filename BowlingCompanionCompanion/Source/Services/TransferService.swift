@@ -1,5 +1,5 @@
 //
-//  TransferServer.swift
+//  TransferService.swift
 //  BowlingCompanionCompanion
 //
 //  Created by Joseph Roque on 2018-10-29.
@@ -8,38 +8,35 @@
 
 import Foundation
 
-enum TransferServerStatus: String, Codable {
-	case online = "Online"
-	case offline = "Offline"
-	case partiallyOnline = "Partial"
-	case waiting = "Waiting"
-	case error = "Error"
-}
+class TransferService: Service {
 
-struct TransferServerEndpoint: Decodable {
-	let name: String
-	let status: Bool
-}
+	enum Status: String {
+		case online = "Online"
+		case offline = "Offline"
+		case partiallyOnline = "Partial"
+		case waiting = "Waiting"
+		case error = "Error"
+	}
 
-class TransferServer {
-	private let url: URL
-	private let apiKey: String
+	struct Endpoint: Decodable {
+		let name: String
+		let status: Bool
+	}
 
-	private(set) var status: TransferServerStatus = .waiting
-	private(set) var lastStatusCheck: TimeInterval = 0
-	private(set) var endpoints: [TransferServerEndpoint] = []
+	let url: URL
+	let apiKey: String
+
+	private(set) var status: Status = .waiting
+	private(set) var endpoints: [Endpoint] = []
+	private(set) var numberOfRequests: Int = 1
 
 	init(url: String, apiKey: String) {
 		self.url = URL(string: url)!
 		self.apiKey = apiKey
 	}
 
-	var statusEndpoint: URL {
+	private var statusEndpoint: URL {
 		return URL(string: "api", relativeTo: url)!
-	}
-
-	var restartEndpoint: URL {
-		return URL(string: "restart", relativeTo: url)!
 	}
 
 	private func buildURLRequest(for url: URL) -> URLRequest {
@@ -49,29 +46,8 @@ class TransferServer {
 		return urlRequest
 	}
 
-	func restart(urlSessionDelegate delegate: URLSessionDelegate, completion: @escaping () -> Void) {
-		let restartRequest = buildURLRequest(for: restartEndpoint)
-		let session = URLSession(configuration: URLSessionConfiguration.default, delegate: delegate, delegateQueue: OperationQueue.main)
-		let task = session.dataTask(with: restartRequest) { [weak self] data, response, error in
-			if let data = data, let body = String(data: data, encoding: .utf8) {
-				if body != "OK" {
-					print("Server failed to restart")
-				}
-			} else {
-				if let error = error {
-					print("Error restarting server: \(error)")
-				}
-				print("Server failed to restart")
-			}
-
-			DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-				self?.queryStatus(urlSessionDelegate: delegate, completion: completion)
-			}
-		}
-
-		DispatchQueue.global().async {
-			task.resume()
-		}
+	func query(delegate: URLSessionDelegate, completion: @escaping () -> Void) {
+		queryStatus(urlSessionDelegate: delegate, completion: completion)
 	}
 
 	func queryStatus(urlSessionDelegate delegate: URLSessionDelegate, completion: @escaping () -> Void) {
@@ -79,12 +55,10 @@ class TransferServer {
 		let session = URLSession(configuration: URLSessionConfiguration.default, delegate: delegate, delegateQueue: OperationQueue.main)
 		let task = session.dataTask(with: queryRequest) { [weak self] data, response, error in
 			guard let self = self else { return }
-			self.lastStatusCheck = Date().timeIntervalSince1970
-
 			let decoder = JSONDecoder()
 			do {
 				if let data = data {
-					let	endpoints = try decoder.decode([TransferServerEndpoint].self, from: data)
+					let	endpoints = try decoder.decode([Endpoint].self, from: data)
 					self.endpoints = endpoints
 					if endpoints.count > 0 && endpoints.allSatisfy({ $0.status == true }) {
 						self.status = .online

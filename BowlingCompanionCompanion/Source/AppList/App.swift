@@ -19,7 +19,12 @@ struct App: Equatable, Hashable, Decodable {
 		case bugsnagApiKey = "BugsnagApiKey"
 	}
 
-	let id: String
+	enum ID: String, Decodable {
+		case fivePin = "ca.josephroque.bowlingcompanion"
+		case fivePinSecure = "ca.josephroque.bowlingcompanion.https"
+	}
+
+	let id: ID
 	let name: String
 	let iconName: String
 	let serverUrl: String
@@ -27,23 +32,36 @@ struct App: Equatable, Hashable, Decodable {
 	let mixpanelApiKey: String
 	let bugsnagApiKey: String
 
+	var expectedRequests: Int {
+		return services.reduce(0, { count, service in
+			service.numberOfRequests
+		})
+	}
+
 	var icon: UIImage {
 		return UIImage(named: iconName)!
 	}
 
-	var dailyActiveUsers: Int = 0
-	var monthlyActiveUsers: Int = 0
+	private var _transferService: TransferService!
+	var transferService: TransferService {
+		return _transferService
+	}
 
-	var crashes: Int = 0
+	private var _mixpanelService: MixpanelService!
+	var mixpanelService: MixpanelService {
+		return _mixpanelService
+	}
 
-	private var _transferServer: TransferServer!
-	var transferServer: TransferServer {
-		return _transferServer
+	var services: [Service] {
+		return [
+			transferService,
+			mixpanelService
+		]
 	}
 
 	public init(from decoder: Decoder) throws {
 		let container = try decoder.container(keyedBy: CodingKeys.self)
-		self.id = try container.decode(String.self, forKey: .id)
+		self.id = try container.decode(ID.self, forKey: .id)
 		self.name = try container.decode(String.self, forKey: .name)
 		self.iconName = try container.decode(String.self, forKey: .iconName)
 		self.serverUrl = try container.decode(String.self, forKey: .serverUrl)
@@ -51,7 +69,8 @@ struct App: Equatable, Hashable, Decodable {
 		self.mixpanelApiKey = try container.decode(String.self, forKey: .mixpanelApiKey)
 		self.bugsnagApiKey = try container.decode(String.self, forKey: .bugsnagApiKey)
 
-		self._transferServer = TransferServer(url: serverUrl, apiKey: serverApiKey)
+		self._transferService = TransferService(url: serverUrl, apiKey: serverApiKey)
+		self._mixpanelService = MixpanelService(apiKey: mixpanelApiKey)
 	}
 
 	public static func ==(lhs: App, rhs: App) -> Bool {

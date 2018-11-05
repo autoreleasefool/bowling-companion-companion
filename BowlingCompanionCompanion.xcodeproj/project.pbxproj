@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		CA315389218684DD00C7D9E0 /* App.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA315388218684DD00C7D9E0 /* App.swift */; };
 		CA31538B218732CD00C7D9E0 /* Apps.plist in Resources */ = {isa = PBXBuildFile; fileRef = CA31538A218732CD00C7D9E0 /* Apps.plist */; };
-		CA31538D21880D3700C7D9E0 /* TransferServer.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA31538C21880D3700C7D9E0 /* TransferServer.swift */; };
+		CA31538D21880D3700C7D9E0 /* TransferService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA31538C21880D3700C7D9E0 /* TransferService.swift */; };
 		CA3153902188A1B300C7D9E0 /* UINavigationController+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA31538F2188A1B300C7D9E0 /* UINavigationController+Extensions.swift */; };
 		CA3153932188A24D00C7D9E0 /* AppDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA3153922188A24D00C7D9E0 /* AppDetailsViewController.swift */; };
 		CA3153952188AAD700C7D9E0 /* AppDetailsBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA3153942188AAD700C7D9E0 /* AppDetailsBuilder.swift */; };
@@ -29,12 +29,15 @@
 		CA9DFC9C218620CA0059AF60 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA9DFC9B218620CA0059AF60 /* Colors.swift */; };
 		CA9DFC9E21862C910059AF60 /* AppListBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA9DFC9D21862C910059AF60 /* AppListBuilder.swift */; };
 		CAEADA49218D4447009AC8A2 /* UIViewController+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAEADA48218D4447009AC8A2 /* UIViewController+Extensions.swift */; };
+		CAF31C3B218DFBF700E7689C /* MixpanelService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAF31C3A218DFBF700E7689C /* MixpanelService.swift */; };
+		CAF31C3D218DFC1400E7689C /* BugsnagService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAF31C3C218DFC1400E7689C /* BugsnagService.swift */; };
+		CAF31C3F218E4A0000E7689C /* Service.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAF31C3E218E4A0000E7689C /* Service.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		CA315388218684DD00C7D9E0 /* App.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = App.swift; sourceTree = "<group>"; };
 		CA31538A218732CD00C7D9E0 /* Apps.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Apps.plist; sourceTree = "<group>"; };
-		CA31538C21880D3700C7D9E0 /* TransferServer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransferServer.swift; sourceTree = "<group>"; };
+		CA31538C21880D3700C7D9E0 /* TransferService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransferService.swift; sourceTree = "<group>"; };
 		CA31538F2188A1B300C7D9E0 /* UINavigationController+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UINavigationController+Extensions.swift"; sourceTree = "<group>"; };
 		CA3153922188A24D00C7D9E0 /* AppDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDetailsViewController.swift; sourceTree = "<group>"; };
 		CA3153942188AAD700C7D9E0 /* AppDetailsBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDetailsBuilder.swift; sourceTree = "<group>"; };
@@ -55,6 +58,9 @@
 		CA9DFC9B218620CA0059AF60 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		CA9DFC9D21862C910059AF60 /* AppListBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppListBuilder.swift; sourceTree = "<group>"; };
 		CAEADA48218D4447009AC8A2 /* UIViewController+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extensions.swift"; sourceTree = "<group>"; };
+		CAF31C3A218DFBF700E7689C /* MixpanelService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MixpanelService.swift; sourceTree = "<group>"; };
+		CAF31C3C218DFC1400E7689C /* BugsnagService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BugsnagService.swift; sourceTree = "<group>"; };
+		CAF31C3E218E4A0000E7689C /* Service.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Service.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -146,7 +152,7 @@
 		CA9DFC93218613630059AF60 /* Source */ = {
 			isa = PBXGroup;
 			children = (
-				CA9DFC96218617AD0059AF60 /* Api */,
+				CA9DFC96218617AD0059AF60 /* Services */,
 				CA3153912188A22A00C7D9E0 /* AppDetails */,
 				CA9DFC95218617A30059AF60 /* AppList */,
 				CA31538E2188A19F00C7D9E0 /* Extensions */,
@@ -179,12 +185,15 @@
 			path = AppList;
 			sourceTree = "<group>";
 		};
-		CA9DFC96218617AD0059AF60 /* Api */ = {
+		CA9DFC96218617AD0059AF60 /* Services */ = {
 			isa = PBXGroup;
 			children = (
-				CA31538C21880D3700C7D9E0 /* TransferServer.swift */,
+				CAF31C3C218DFC1400E7689C /* BugsnagService.swift */,
+				CAF31C3A218DFBF700E7689C /* MixpanelService.swift */,
+				CA31538C21880D3700C7D9E0 /* TransferService.swift */,
+				CAF31C3E218E4A0000E7689C /* Service.swift */,
 			);
-			path = Api;
+			path = Services;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -262,18 +271,21 @@
 				CA3153992188B12400C7D9E0 /* PaddedLabel.swift in Sources */,
 				CA3153972188ACCE00C7D9E0 /* LabelState.swift in Sources */,
 				CA31539E21891F5900C7D9E0 /* SectionHeader.swift in Sources */,
+				CAF31C3D218DFC1400E7689C /* BugsnagService.swift in Sources */,
 				CA7BE8502186068D0002F8A2 /* AppListViewController.swift in Sources */,
 				CA9DFC9E21862C910059AF60 /* AppListBuilder.swift in Sources */,
 				CAEADA49218D4447009AC8A2 /* UIViewController+Extensions.swift in Sources */,
 				CA3153952188AAD700C7D9E0 /* AppDetailsBuilder.swift in Sources */,
 				CA9DFC9C218620CA0059AF60 /* Colors.swift in Sources */,
+				CAF31C3B218DFBF700E7689C /* MixpanelService.swift in Sources */,
 				CA3153932188A24D00C7D9E0 /* AppDetailsViewController.swift in Sources */,
-				CA31538D21880D3700C7D9E0 /* TransferServer.swift in Sources */,
+				CA31538D21880D3700C7D9E0 /* TransferService.swift in Sources */,
 				CA3153A0218928E700C7D9E0 /* SpacerCell.swift in Sources */,
 				CA9DFC98218617C70059AF60 /* AppItemCell.swift in Sources */,
 				CA7BE84E2186068D0002F8A2 /* AppDelegate.swift in Sources */,
 				CA315389218684DD00C7D9E0 /* App.swift in Sources */,
 				CA3153902188A1B300C7D9E0 /* UINavigationController+Extensions.swift in Sources */,
+				CAF31C3F218E4A0000E7689C /* Service.swift in Sources */,
 				CA31539C2188B3B000C7D9E0 /* ImageView.swift in Sources */,
 				CA9DFC9A21861B770059AF60 /* Metrics.swift in Sources */,
 			);

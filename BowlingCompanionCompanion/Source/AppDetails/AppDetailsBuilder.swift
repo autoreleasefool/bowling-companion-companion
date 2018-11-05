@@ -8,16 +8,12 @@
 
 import FunctionalTableData
 
-protocol AppDetailsActionable: class {
-	func resetTransferServer()
-}
-
 struct AppDetailsBuilder {
-	static func sections(app: App, actionable: AppDetailsActionable) -> [TableSection] {
+	static func sections(app: App) -> [TableSection] {
 		return [
 			Image.section(app: app),
-			Server.section(endpoints: app.transferServer.endpoints, actionable: actionable),
-			Usage.section(),
+			Server.section(endpoints: app.transferService.endpoints),
+			Usage.section(app: app),
 			Errors.section(),
 		]
 	}
@@ -36,16 +32,12 @@ struct AppDetailsBuilder {
 	}
 
 	struct Server {
-		static func section(endpoints: [TransferServerEndpoint], actionable: AppDetailsActionable) -> TableSection {
+		static func section(endpoints: [TransferService.Endpoint]) -> TableSection {
 			var rows: [CellConfigType] = [
 				SectionHeaderCell(
 					key: "server-header",
 					style: CellStyle(topSeparator: .full, separatorColor: Colors.divider, highlight: true, selectionColor: Colors.primaryLight, backgroundColor: Colors.primaryDark),
-					actions: CellActions(selectionAction: { [weak actionable] _ in
-						actionable?.resetTransferServer()
-						return .deselected
-					}),
-					state: SectionHeaderCellState(title: "Transfer server", actionIcon: UIImage(named: "Reset")!),
+					state: SectionHeaderCellState(title: "Transfer server"),
 					cellUpdater: SectionHeaderCellState.updateView
 				)
 			]
@@ -79,7 +71,7 @@ struct AppDetailsBuilder {
 	}
 
 	struct Usage {
-		static func section() -> TableSection {
+		static func section(app: App) -> TableSection {
 			let headerLabel = SectionHeaderCell(
 				key: "usage-header",
 				style: CellStyle(topSeparator: .full, separatorColor: Colors.divider),
@@ -90,13 +82,13 @@ struct AppDetailsBuilder {
 			let dauLabel = PaddedLabelCell(
 				key: "usage-dau",
 				style: CellStyle(bottomSeparator: .inset, separatorColor: Colors.divider),
-				state: LabelState(text: "256 daily active users"),
+				state: LabelState(text: "\(app.mixpanelService.dailyActiveUsers) daily active users"),
 				cellUpdater: LabelState.updateView
 			)
 			let mauLabel = PaddedLabelCell(
 				key: "usage-mau",
 				style: CellStyle(bottomSeparator: .full, separatorColor: Colors.divider),
-				state: LabelState(text: "1,018 monthly active users"),
+				state: LabelState(text: "\(app.mixpanelService.monthlyActiveUsers) monthly active users"),
 				cellUpdater: LabelState.updateView
 			)
 

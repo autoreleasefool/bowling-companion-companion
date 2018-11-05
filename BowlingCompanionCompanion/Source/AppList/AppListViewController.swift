@@ -15,9 +15,10 @@ class AppListViewController: UIViewController {
 	private let tableView = UITableView()
 	private let tableData = FunctionalTableData()
 
-	private var refreshTime: TimeInterval = 0
-
 	private var apps: [App] = []
+
+	private(set) var expectedRequests = 0
+	private(set) var completedRequests = 0
 
 	override func viewDidLoad() {
 		super.viewDidLoad()
@@ -62,18 +63,25 @@ class AppListViewController: UIViewController {
 		refreshAppProperties()
 	}
 
-	private func appFinishedStatusQuery() {
-		if apps.allSatisfy({ $0.transferServer.lastStatusCheck > refreshTime }) {
+	private func serviceQueryFinished() {
+		completedRequests += 1
+		if completedRequests == expectedRequests {
 			refreshControl.endRefreshing()
 			render()
 		}
 	}
 
 	@objc private func refreshAppProperties(_ sender: AnyObject? = nil) {
-		refreshTime = Date().timeIntervalSince1970
-		apps.forEach {
-			$0.transferServer.queryStatus(urlSessionDelegate: self) { [weak self] in
-				self?.appFinishedStatusQuery()
+		completedRequests = 0
+		expectedRequests = apps.reduce(0, { count, app in
+			app.expectedRequests
+		})
+
+		apps.forEach { app in
+			app.services.forEach { service in
+				service.query(delegate: self) { [weak self] in
+					self?.serviceQueryFinished()
+				}
 			}
 		}
 	}

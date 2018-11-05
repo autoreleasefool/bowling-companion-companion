@@ -83,14 +83,14 @@ struct AppItemCellState: Equatable {
 	private let appName: String
 	private let dailyActiveUsers: Int
 	private let crashes: Int
-	private let serverStatus: TransferServerStatus
+	private let serverStatus: TransferService.Status
 
 	init(app: App) {
 		self.appIcon = app.icon
 		self.appName = app.name
-		self.dailyActiveUsers = app.dailyActiveUsers
-		self.crashes = app.crashes
-		self.serverStatus = app.transferServer.status
+		self.dailyActiveUsers = app.mixpanelService.dailyActiveUsers
+		self.crashes = 0
+		self.serverStatus = app.transferService.status
 	}
 
 	public static func updateView(_ view: AppItemCellView, state: AppItemCellState?) {

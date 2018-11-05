@@ -16,7 +16,8 @@ class AppDetailsViewController: UIViewController {
 	private let tableView = UITableView()
 	private let tableData = FunctionalTableData()
 
-	private var refreshTime: TimeInterval = 0
+	private(set) var expectedRequests = 0
+	private(set) var completedRequests = 0
 
 	init(app: App) {
 		self.app = app
@@ -54,29 +55,25 @@ class AppDetailsViewController: UIViewController {
 	}
 
 	private func render() {
-		tableData.renderAndDiff(AppDetailsBuilder.sections(app: app, actionable: self))
+		tableData.renderAndDiff(AppDetailsBuilder.sections(app: app))
 	}
 
-	private func serviceFinished() {
-		if app.transferServer.lastStatusCheck > refreshTime {
+	private func serviceQueryFinished() {
+		completedRequests += 1
+		if completedRequests == expectedRequests {
 			refreshControl.endRefreshing()
 			render()
 		}
 	}
 
 	@objc private func refreshAppDetails(_ sender: AnyObject? = nil) {
-		refreshTime = Date().timeIntervalSince1970
-		app.transferServer.queryStatus(urlSessionDelegate: self) { [weak self] in
-			self?.serviceFinished()
-		}
-	}
-}
+		completedRequests = 0
+		expectedRequests = app.expectedRequests
 
-extension AppDetailsViewController: AppDetailsActionable {
-	func resetTransferServer() {
-		refreshTime = Date().timeIntervalSince1970
-		app.transferServer.restart(urlSessionDelegate: self) { [weak self] in
-			self?.serviceFinished()
+		app.services.forEach { service in
+			service.query(delegate: self) { [weak self] in
+				self?.serviceQueryFinished()
+			}
 		}
 	}
 }
