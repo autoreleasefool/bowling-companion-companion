@@ -10,7 +10,6 @@ import Foundation
 
 class MixpanelService: Service {
 	let apiKey: String
-	let numberOfRequests: Int = 2
 
 	private(set) var dailyActiveUsers: Int = 0
 	private(set) var monthlyActiveUsers: Int = 0

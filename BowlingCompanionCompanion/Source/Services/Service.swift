@@ -9,6 +9,5 @@
 import Foundation
 
 protocol Service {
-	var numberOfRequests: Int { get }
 	func query(delegate: URLSessionDelegate, completion: @escaping () -> Void)
 }

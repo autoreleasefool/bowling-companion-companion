@@ -11,20 +11,13 @@ import UIKit
 
 class AppListViewController: UIViewController {
 
-	private let refreshControl = UIRefreshControl()
 	private let tableView = UITableView()
 	private let tableData = FunctionalTableData()
 
 	private var apps: [App] = []
 
-	private(set) var expectedRequests = 0
-	private(set) var completedRequests = 0
-
 	override func viewDidLoad() {
 		super.viewDidLoad()
-
-		refreshControl.addTarget(self, action: #selector(refreshAppProperties(_:)), for: .valueChanged)
-		tableView.addSubview(refreshControl)
 
 		tableView.backgroundColor = Colors.background
 
@@ -63,24 +56,11 @@ class AppListViewController: UIViewController {
 		refreshAppProperties()
 	}
 
-	private func serviceQueryFinished() {
-		completedRequests += 1
-		if completedRequests == expectedRequests {
-			refreshControl.endRefreshing()
-			render()
-		}
-	}
-
 	@objc private func refreshAppProperties(_ sender: AnyObject? = nil) {
-		completedRequests = 0
-		expectedRequests = apps.reduce(0, { count, app in
-			app.expectedRequests
-		})
-
 		apps.forEach { app in
 			app.services.forEach { service in
 				service.query(delegate: self) { [weak self] in
-					self?.serviceQueryFinished()
+					self?.render()
 				}
 			}
 		}

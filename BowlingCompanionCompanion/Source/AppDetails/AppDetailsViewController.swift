@@ -12,12 +12,8 @@ import FunctionalTableData
 class AppDetailsViewController: UIViewController {
 	private let app: App
 
-	private let refreshControl = UIRefreshControl()
 	private let tableView = UITableView()
 	private let tableData = FunctionalTableData()
-
-	private(set) var expectedRequests = 0
-	private(set) var completedRequests = 0
 
 	init(app: App) {
 		self.app = app
@@ -30,9 +26,6 @@ class AppDetailsViewController: UIViewController {
 
 	override func viewDidLoad() {
 		super.viewDidLoad()
-
-		refreshControl.addTarget(self, action: #selector(refreshAppDetails(_:)), for: .valueChanged)
-		tableView.addSubview(refreshControl)
 
 		tableView.backgroundColor = Colors.background
 
@@ -58,21 +51,10 @@ class AppDetailsViewController: UIViewController {
 		tableData.renderAndDiff(AppDetailsBuilder.sections(app: app))
 	}
 
-	private func serviceQueryFinished() {
-		completedRequests += 1
-		if completedRequests == expectedRequests {
-			refreshControl.endRefreshing()
-			render()
-		}
-	}
-
 	@objc private func refreshAppDetails(_ sender: AnyObject? = nil) {
-		completedRequests = 0
-		expectedRequests = app.expectedRequests
-
 		app.services.forEach { service in
 			service.query(delegate: self) { [weak self] in
-				self?.serviceQueryFinished()
+				self?.render()
 			}
 		}
 	}

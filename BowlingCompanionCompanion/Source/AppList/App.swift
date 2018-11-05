@@ -32,12 +32,6 @@ struct App: Equatable, Hashable, Decodable {
 	let mixpanelApiKey: String
 	let bugsnagApiKey: String
 
-	var expectedRequests: Int {
-		return services.reduce(0, { count, service in
-			service.numberOfRequests
-		})
-	}
-
 	var icon: UIImage {
 		return UIImage(named: iconName)!
 	}

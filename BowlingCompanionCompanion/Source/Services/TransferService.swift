@@ -28,7 +28,6 @@ class TransferService: Service {
 
 	private(set) var status: Status = .waiting
 	private(set) var endpoints: [Endpoint] = []
-	private(set) var numberOfRequests: Int = 1
 
 	init(url: String, apiKey: String) {
 		self.url = URL(string: url)!
