@@ -10,12 +10,12 @@ import FunctionalTableData
 
 struct AppDetailsBuilder {
 	static func sections(app: App) -> [TableSection] {
-		return [
-			Image.section(app: app),
-			Server.section(endpoints: app.transferService.endpoints),
-			Usage.section(app: app),
-			Errors.section(),
-		]
+		var sections = [Image.section(app: app)]
+		app.services.forEach {
+			sections.append($0.section())
+		}
+		sections.append(Errors.section())
+		return sections
 	}
 
 	struct Image {
@@ -28,76 +28,6 @@ struct AppDetailsBuilder {
 			)
 
 			return TableSection(key: "image", rows: [appImage])
-		}
-	}
-
-	struct Server {
-		static func section(endpoints: [TransferService.Endpoint]) -> TableSection {
-			var rows: [CellConfigType] = [
-				SectionHeaderCell(
-					key: "server-header",
-					style: CellStyle(topSeparator: .full, separatorColor: Colors.divider, highlight: true, selectionColor: Colors.primaryLight, backgroundColor: Colors.primaryDark),
-					state: SectionHeaderCellState(title: "Transfer server"),
-					cellUpdater: SectionHeaderCellState.updateView
-				)
-			]
-
-			endpoints.forEach { endpoint in
-				let backgroundColor = endpoint.status ? Colors.affirmativeGreen : Colors.dangerRed
-				rows.append(PaddedLabelCell(
-					key: endpoint.name,
-					style: CellStyle(bottomSeparator: .inset, separatorColor: Colors.divider),
-					state: LabelState(text: endpoint.name, textColor: Colors.Text.primaryWhite, backgroundColor: backgroundColor),
-					cellUpdater: LabelState.updateView
-				))
-			}
-
-			if rows.count <= 1 {
-				rows.append(PaddedLabelCell(
-					key: "no-endpoints",
-					style: CellStyle(bottomSeparator: .inset, separatorColor: Colors.divider),
-					state: LabelState(text: "No endpoint data", textColor: Colors.Text.primaryBlack),
-					cellUpdater: LabelState.updateView
-				))
-			}
-
-			rows[rows.endIndex - 1].style?.bottomSeparator = .full
-			rows[rows.endIndex - 1].style?.separatorColor = Colors.divider
-
-			rows.append(SpacerCell(key: "server-spacer", state: SpacerState(height: Metrics.Spacing.large), cellUpdater: SpacerState.updateView))
-
-			return TableSection(key: "server", rows: rows)
-		}
-	}
-
-	struct Usage {
-		static func section(app: App) -> TableSection {
-			let headerLabel = SectionHeaderCell(
-				key: "usage-header",
-				style: CellStyle(topSeparator: .full, separatorColor: Colors.divider),
-				state: SectionHeaderCellState(title: "Usage"),
-				cellUpdater: SectionHeaderCellState.updateView
-			)
-
-			let dauLabel = PaddedLabelCell(
-				key: "usage-dau",
-				style: CellStyle(bottomSeparator: .inset, separatorColor: Colors.divider),
-				state: LabelState(text: "\(app.mixpanelService.dailyActiveUsers) daily active users"),
-				cellUpdater: LabelState.updateView
-			)
-			let mauLabel = PaddedLabelCell(
-				key: "usage-mau",
-				style: CellStyle(bottomSeparator: .full, separatorColor: Colors.divider),
-				state: LabelState(text: "\(app.mixpanelService.monthlyActiveUsers) monthly active users"),
-				cellUpdater: LabelState.updateView
-			)
-
-			return TableSection(key: "usage", rows: [
-				headerLabel,
-				dauLabel,
-				mauLabel,
-				SpacerCell(key: "server-spacer", state: SpacerState(height: Metrics.Spacing.large), cellUpdater: SpacerState.updateView)
-				])
 		}
 	}
 

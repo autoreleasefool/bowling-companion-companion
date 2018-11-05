@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import FunctionalTableData
 
 class TransferService: Service {
 
@@ -25,13 +26,15 @@ class TransferService: Service {
 
 	let url: URL
 	let apiKey: String
+	let isSecure: Bool
 
 	private(set) var status: Status = .waiting
 	private(set) var endpoints: [Endpoint] = []
 
-	init(url: String, apiKey: String) {
+	init(url: String, apiKey: String, isSecure: Bool = false) {
 		self.url = URL(string: url)!
 		self.apiKey = apiKey
+		self.isSecure = isSecure
 	}
 
 	private var statusEndpoint: URL {
@@ -47,6 +50,10 @@ class TransferService: Service {
 
 	func query(delegate: URLSessionDelegate, completion: @escaping () -> Void) {
 		queryStatus(urlSessionDelegate: delegate, completion: completion)
+	}
+
+	func section() -> TableSection {
+		return TransferService.section(service: self)
 	}
 
 	func queryStatus(urlSessionDelegate delegate: URLSessionDelegate, completion: @escaping () -> Void) {
@@ -83,5 +90,49 @@ class TransferService: Service {
 		DispatchQueue.global(qos: .background).async {
 			task.resume()
 		}
+	}
+}
+
+extension TransferService {
+	static func section(service: TransferService) -> TableSection {
+		var sectionTitle: String = "Transfer service"
+		if service.isSecure {
+			sectionTitle += " (SSL)"
+		}
+
+		var rows: [CellConfigType] = [
+			SectionHeaderCell(
+				key: "header",
+				style: CellStyle(topSeparator: .full, separatorColor: Colors.divider, highlight: true, selectionColor: Colors.primaryLight, backgroundColor: Colors.primaryDark),
+				state: SectionHeaderCellState(title: sectionTitle),
+				cellUpdater: SectionHeaderCellState.updateView
+			)
+		]
+
+		service.endpoints.forEach { endpoint in
+			let backgroundColor = endpoint.status ? Colors.affirmativeGreen : Colors.dangerRed
+			rows.append(PaddedLabelCell(
+				key: endpoint.name,
+				style: CellStyle(bottomSeparator: .inset, separatorColor: Colors.divider),
+				state: LabelState(text: endpoint.name, textColor: Colors.Text.primaryWhite, backgroundColor: backgroundColor),
+				cellUpdater: LabelState.updateView
+			))
+		}
+
+		if rows.count <= 1 {
+			rows.append(PaddedLabelCell(
+				key: "no-endpoints",
+				style: CellStyle(bottomSeparator: .inset, separatorColor: Colors.divider),
+				state: LabelState(text: "No endpoint data", textColor: Colors.Text.primaryBlack),
+				cellUpdater: LabelState.updateView
+			))
+		}
+
+		rows[rows.endIndex - 1].style?.bottomSeparator = .full
+		rows[rows.endIndex - 1].style?.separatorColor = Colors.divider
+
+		rows.append(SpacerCell(key: "spacer", state: SpacerState(height: Metrics.Spacing.large), cellUpdater: SpacerState.updateView))
+
+		return TableSection(key: "\(service.url)", rows: rows)
 	}
 }

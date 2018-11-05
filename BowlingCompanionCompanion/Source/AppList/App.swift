@@ -8,27 +8,26 @@
 
 import UIKit
 
-struct App: Equatable, Hashable, Decodable {
+struct App: Decodable {
 	private enum CodingKeys: String, CodingKey {
 		case id = "ID"
 		case name = "Name"
 		case iconName = "Icon"
 		case serverUrl = "ServerURL"
 		case serverApiKey = "ServerApiKey"
+		case secureServerUrl = "SecureServerURL"
+		case secureServerApiKey = "SecureServerApiKey"
 		case mixpanelApiKey = "MixpanelApiKey"
 		case bugsnagApiKey = "BugsnagApiKey"
 	}
 
-	enum ID: String, Decodable {
-		case fivePin = "ca.josephroque.bowlingcompanion"
-		case fivePinSecure = "ca.josephroque.bowlingcompanion.https"
-	}
-
-	let id: ID
+	let id: String
 	let name: String
 	let iconName: String
 	let serverUrl: String
 	let serverApiKey: String
+	let secureServerUrl: String?
+	let secureServerApiKey: String?
 	let mixpanelApiKey: String
 	let bugsnagApiKey: String
 
@@ -41,21 +40,29 @@ struct App: Equatable, Hashable, Decodable {
 		return _transferService
 	}
 
+	private var _secureTransferService: TransferService?
+	var secureTransferService: TransferService? {
+		return _secureTransferService
+	}
+
 	private var _mixpanelService: MixpanelService!
 	var mixpanelService: MixpanelService {
 		return _mixpanelService
 	}
 
 	var services: [Service] {
-		return [
-			transferService,
-			mixpanelService
-		]
+		var services: [Service] = []
+		if let secureTransferService = secureTransferService {
+			services.append(secureTransferService)
+		}
+		services.append(transferService)
+		services.append(mixpanelService)
+		return services
 	}
 
 	public init(from decoder: Decoder) throws {
 		let container = try decoder.container(keyedBy: CodingKeys.self)
-		self.id = try container.decode(ID.self, forKey: .id)
+		self.id = try container.decode(String.self, forKey: .id)
 		self.name = try container.decode(String.self, forKey: .name)
 		self.iconName = try container.decode(String.self, forKey: .iconName)
 		self.serverUrl = try container.decode(String.self, forKey: .serverUrl)
@@ -65,13 +72,13 @@ struct App: Equatable, Hashable, Decodable {
 
 		self._transferService = TransferService(url: serverUrl, apiKey: serverApiKey)
 		self._mixpanelService = MixpanelService(apiKey: mixpanelApiKey)
-	}
 
-	public static func ==(lhs: App, rhs: App) -> Bool {
-		return lhs.id == rhs.id
-	}
-
-	public var hashValue: Int {
-		return id.hashValue
+		self.secureServerUrl = try container.decodeIfPresent(String.self, forKey: .secureServerUrl)
+		self.secureServerApiKey = try container.decodeIfPresent(String.self, forKey: .secureServerApiKey)
+		if let url = self.secureServerUrl, let apiKey = self.secureServerApiKey {
+			self._secureTransferService = TransferService(url: url, apiKey: apiKey, isSecure: true)
+		} else {
+			self._secureTransferService = nil
+		}
 	}
 }

@@ -7,7 +7,9 @@
 //
 
 import Foundation
+import FunctionalTableData
 
 protocol Service {
 	func query(delegate: URLSessionDelegate, completion: @escaping () -> Void)
+	func section() -> TableSection
 }

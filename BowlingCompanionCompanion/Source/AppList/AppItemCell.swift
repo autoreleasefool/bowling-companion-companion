@@ -15,6 +15,7 @@ class AppItemCellView: UIView {
 	fileprivate let dauLabel = UILabel()
 	fileprivate let crashesLabel = UILabel()
 	fileprivate let statusLabel = UILabel()
+	fileprivate let secureStatusLabel = UILabel()
 
 	override init(frame: CGRect) {
 		super.init(frame: frame)
@@ -31,17 +32,21 @@ class AppItemCellView: UIView {
 		dauLabel.translatesAutoresizingMaskIntoConstraints = false
 
 		crashesLabel.textColor = Colors.dangerRed
-		crashesLabel.font = UIFont(name: dauLabel.font.fontName, size: Metrics.TextSize.body)
+		crashesLabel.font = UIFont(name: crashesLabel.font.fontName, size: Metrics.TextSize.body)
 		crashesLabel.translatesAutoresizingMaskIntoConstraints = false
 
-		statusLabel.font = UIFont(name: dauLabel.font.fontName, size: Metrics.TextSize.body)
+		statusLabel.font = UIFont(name: statusLabel.font.fontName, size: Metrics.TextSize.body)
 		statusLabel.translatesAutoresizingMaskIntoConstraints = false
+
+		secureStatusLabel.font = UIFont(name: secureStatusLabel.font.fontName, size: Metrics.TextSize.body)
+		secureStatusLabel.translatesAutoresizingMaskIntoConstraints = false
 
 		addSubview(imageView)
 		addSubview(titleLabel)
 		addSubview(dauLabel)
 		addSubview(crashesLabel)
 		addSubview(statusLabel)
+		addSubview(secureStatusLabel)
 
 		NSLayoutConstraint.activate([
 			imageView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: Metrics.Spacing.large),
@@ -62,6 +67,9 @@ class AppItemCellView: UIView {
 
 			statusLabel.leadingAnchor.constraint(equalTo: crashesLabel.trailingAnchor, constant: Metrics.Spacing.large),
 			statusLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: Metrics.Spacing.small),
+
+			secureStatusLabel.leadingAnchor.constraint(equalTo: statusLabel.trailingAnchor, constant: Metrics.Spacing.large),
+			secureStatusLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: Metrics.Spacing.small),
 			])
 	}
 
@@ -84,6 +92,7 @@ struct AppItemCellState: Equatable {
 	private let dailyActiveUsers: Int
 	private let crashes: Int
 	private let serverStatus: TransferService.Status
+	private let secureServerStatus: TransferService.Status?
 
 	init(app: App) {
 		self.appIcon = app.icon
@@ -91,6 +100,7 @@ struct AppItemCellState: Equatable {
 		self.dailyActiveUsers = app.mixpanelService.dailyActiveUsers
 		self.crashes = 0
 		self.serverStatus = app.transferService.status
+		self.secureServerStatus = app.secureTransferService?.status
 	}
 
 	public static func updateView(_ view: AppItemCellView, state: AppItemCellState?) {
@@ -103,20 +113,16 @@ struct AppItemCellState: Equatable {
 		view.titleLabel.text = state.appName
 		view.dauLabel.text = "\(state.dailyActiveUsers) DAU"
 		view.crashesLabel.text = "\(state.crashes) crashes"
+		view.statusLabel.textColor = state.serverStatus.color
+		view.statusLabel.text = state.serverStatus.rawValue
 
-		let statusColor: UIColor
-		let statusText: String = state.serverStatus.rawValue
-		switch state.serverStatus {
-		case .waiting:
-			statusColor = Colors.warningYellow
-		case .online:
-			statusColor = Colors.affirmativeGreen
-		case .offline, .error, .partiallyOnline:
-			statusColor = Colors.dangerRed
+		if let secureServerStatus = state.secureServerStatus {
+			view.secureStatusLabel.textColor = secureServerStatus.color
+			view.secureStatusLabel.text = secureServerStatus.rawValue
+			view.secureStatusLabel.isHidden = false
+		} else {
+			view.secureStatusLabel.isHidden = true
 		}
-
-		view.statusLabel.textColor = statusColor
-		view.statusLabel.text = statusText
 	}
 
 	public static func ==(lhs: AppItemCellState, rhs: AppItemCellState) -> Bool {
@@ -124,7 +130,18 @@ struct AppItemCellState: Equatable {
 			lhs.appIcon == rhs.appIcon &&
 			lhs.dailyActiveUsers == rhs.dailyActiveUsers &&
 			lhs.crashes == rhs.crashes &&
-			lhs.serverStatus == rhs.serverStatus
+			lhs.serverStatus == rhs.serverStatus &&
+			lhs.secureServerStatus == rhs.secureServerStatus
+	}
+}
+
+fileprivate extension TransferService.Status {
+	var color: UIColor {
+		switch self {
+		case .waiting: return Colors.warningYellow
+		case .online: return Colors.affirmativeGreen
+		case .offline, .error, .partiallyOnline: return Colors.dangerRed
+		}
 	}
 }
 
