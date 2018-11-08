@@ -23,10 +23,10 @@ class SectionHeaderCellView: UIView {
 		iconView.translatesAutoresizingMaskIntoConstraints = false
 		actionLabel.translatesAutoresizingMaskIntoConstraints = false
 
-		titleLabel.font = UIFont(name: titleLabel.font.fontName, size: Metrics.TextSize.subtitle)
+		titleLabel.font = UIFont.systemFont(ofSize: Metrics.TextSize.subtitle)
 		titleLabel.textColor = Colors.Text.primaryWhite
 
-		actionLabel.font = UIFont(name: actionLabel.font.fontName, size: Metrics.TextSize.caption)
+		actionLabel.font = UIFont.systemFont(ofSize: Metrics.TextSize.caption)
 		actionLabel.textColor = Colors.Text.primaryWhite
 
 		iconView.contentMode = .scaleAspectFit

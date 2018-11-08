@@ -100,7 +100,7 @@ extension TransferService {
 			sectionTitle += " (SSL)"
 		}
 
-		var rows: [CellConfigType] = [
+		var cells: [CellConfigType] = [
 			SectionHeaderCell(
 				key: "header",
 				style: CellStyle(topSeparator: .full, separatorColor: Colors.divider, highlight: true, selectionColor: Colors.primaryLight, backgroundColor: Colors.primaryDark),
@@ -111,7 +111,7 @@ extension TransferService {
 
 		service.endpoints.forEach { endpoint in
 			let backgroundColor = endpoint.status ? Colors.affirmativeGreen : Colors.dangerRed
-			rows.append(PaddedLabelCell(
+			cells.append(PaddedLabelCell(
 				key: endpoint.name,
 				style: CellStyle(bottomSeparator: .inset, separatorColor: Colors.divider),
 				state: LabelState(text: endpoint.name, textColor: Colors.Text.primaryWhite, backgroundColor: backgroundColor),
@@ -119,8 +119,8 @@ extension TransferService {
 			))
 		}
 
-		if rows.count <= 1 {
-			rows.append(PaddedLabelCell(
+		if cells.count <= 1 {
+			cells.append(PaddedLabelCell(
 				key: "no-endpoints",
 				style: CellStyle(bottomSeparator: .inset, separatorColor: Colors.divider),
 				state: LabelState(text: "No endpoint data", textColor: Colors.Text.primaryBlack),
@@ -128,11 +128,11 @@ extension TransferService {
 			))
 		}
 
-		rows[rows.endIndex - 1].style?.bottomSeparator = .full
-		rows[rows.endIndex - 1].style?.separatorColor = Colors.divider
+		cells[cells.endIndex - 1].style?.bottomSeparator = .full
+		cells[cells.endIndex - 1].style?.separatorColor = Colors.divider
 
-		rows.append(SpacerCell(key: "spacer", state: SpacerState(height: Metrics.Spacing.large), cellUpdater: SpacerState.updateView))
+		cells.append(SpacerCell(key: "spacer", state: SpacerState(height: Metrics.Spacing.large), cellUpdater: SpacerState.updateView))
 
-		return TableSection(key: "\(service.url)", rows: rows)
+		return TableSection(key: "\(service.url)", rows: cells)
 	}
 }

@@ -37,7 +37,7 @@ struct LabelState: Equatable {
 		view.text = state.text
 		view.textColor = state.textColor
 		view.backgroundColor = state.backgroundColor
-		view.font = UIFont(name: view.font.fontName, size: state.textSize)
+		view.font = UIFont.systemFont(ofSize: state.textSize)
 	}
 
 	public static func ==(lhs: LabelState, rhs: LabelState) -> Bool {

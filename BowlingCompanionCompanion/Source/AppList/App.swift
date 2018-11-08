@@ -35,7 +35,7 @@ struct App: Decodable {
 		return UIImage(named: iconName)!
 	}
 
-	private var _transferService: TransferService!
+	private var _transferService: TransferService
 	var transferService: TransferService {
 		return _transferService
 	}
@@ -45,7 +45,7 @@ struct App: Decodable {
 		return _secureTransferService
 	}
 
-	private var _mixpanelService: MixpanelService!
+	private var _mixpanelService: MixpanelService
 	var mixpanelService: MixpanelService {
 		return _mixpanelService
 	}
