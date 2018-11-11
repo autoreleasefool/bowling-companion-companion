@@ -59,7 +59,7 @@ class TransferService: Service {
 	func queryStatus(urlSessionDelegate delegate: URLSessionDelegate, completion: @escaping () -> Void) {
 		let queryRequest = buildURLRequest(for: statusEndpoint)
 		let session = URLSession(configuration: URLSessionConfiguration.default, delegate: delegate, delegateQueue: OperationQueue.main)
-		let task = session.dataTask(with: queryRequest) { [weak self] data, response, error in
+		session.dataTask(with: queryRequest) { [weak self] data, response, error in
 			guard let self = self else { return }
 			let decoder = JSONDecoder()
 			do {
@@ -85,11 +85,7 @@ class TransferService: Service {
 			DispatchQueue.main.async {
 				completion()
 			}
-		}
-
-		DispatchQueue.global(qos: .background).async {
-			task.resume()
-		}
+		}.resume()
 	}
 }
 

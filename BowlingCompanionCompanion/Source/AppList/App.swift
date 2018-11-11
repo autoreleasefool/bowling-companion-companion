@@ -19,6 +19,7 @@ struct App: Decodable {
 		case secureServerApiKey = "SecureServerApiKey"
 		case mixpanelApiKey = "MixpanelApiKey"
 		case bugsnagApiKey = "BugsnagApiKey"
+		case bugsnagProjectId = "BugsnagProjectID"
 	}
 
 	let id: String
@@ -30,6 +31,7 @@ struct App: Decodable {
 	let secureServerApiKey: String?
 	let mixpanelApiKey: String
 	let bugsnagApiKey: String
+	let bugsnagProjectId: String
 
 	var icon: UIImage {
 		return UIImage(named: iconName)!
@@ -50,6 +52,11 @@ struct App: Decodable {
 		return _mixpanelService
 	}
 
+	private var _bugsnagService: BugsnagService
+	var bugsnagService: BugsnagService {
+		return _bugsnagService
+	}
+
 	var services: [Service] {
 		var services: [Service] = []
 		if let secureTransferService = secureTransferService {
@@ -57,6 +64,7 @@ struct App: Decodable {
 		}
 		services.append(transferService)
 		services.append(mixpanelService)
+		services.append(bugsnagService)
 		return services
 	}
 
@@ -69,9 +77,11 @@ struct App: Decodable {
 		self.serverApiKey = try container.decode(String.self, forKey: .serverApiKey)
 		self.mixpanelApiKey = try container.decode(String.self, forKey: .mixpanelApiKey)
 		self.bugsnagApiKey = try container.decode(String.self, forKey: .bugsnagApiKey)
+		self.bugsnagProjectId = try container.decode(String.self, forKey: .bugsnagProjectId)
 
 		self._transferService = TransferService(url: serverUrl, apiKey: serverApiKey)
 		self._mixpanelService = MixpanelService(apiKey: mixpanelApiKey)
+		self._bugsnagService = BugsnagService(projectId: bugsnagProjectId, apiKey: bugsnagApiKey)
 
 		self.secureServerUrl = try container.decodeIfPresent(String.self, forKey: .secureServerUrl)
 		self.secureServerApiKey = try container.decodeIfPresent(String.self, forKey: .secureServerApiKey)

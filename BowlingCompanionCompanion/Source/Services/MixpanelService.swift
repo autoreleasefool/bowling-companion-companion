@@ -79,7 +79,7 @@ class MixpanelService: Service {
 
 	func requestDailyActiveUsers(completion: @escaping () -> Void) {
 		let dauRequest = buildURLRequest(for: dailyActiveUsersQuery)
-		let task = URLSession.shared.dataTask(with: dauRequest) { [weak self] data, response, error in
+		URLSession.shared.dataTask(with: dauRequest) { [weak self] data, response, error in
 			let decoder = JSONDecoder()
 			do {
 				if let data = data {
@@ -93,16 +93,12 @@ class MixpanelService: Service {
 			DispatchQueue.main.async {
 				completion()
 			}
-		}
-
-		DispatchQueue.global().async {
-			task.resume()
-		}
+		}.resume()
 	}
 
 	func requestMonthlyActiveUsers(completion: @escaping () -> Void) {
 		let mauRequest = buildURLRequest(for: monthlyActiveUsersQuery)
-		let task = URLSession.shared.dataTask(with: mauRequest) { [weak self] data, response, error in
+		URLSession.shared.dataTask(with: mauRequest) { [weak self] data, response, error in
 			let decoder = JSONDecoder()
 			do {
 				if let data = data {
@@ -116,11 +112,7 @@ class MixpanelService: Service {
 			DispatchQueue.main.async {
 				completion()
 			}
-		}
-
-		DispatchQueue.global().async {
-			task.resume()
-		}
+		}.resume()
 	}
 }
 

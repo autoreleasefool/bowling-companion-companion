@@ -98,7 +98,7 @@ struct AppItemCellState: Equatable {
 		self.appIcon = app.icon
 		self.appName = app.name
 		self.dailyActiveUsers = app.mixpanelService.dailyActiveUsers
-		self.crashes = 0
+		self.crashes = app.bugsnagService.dailyCrashes
 		self.serverStatus = app.transferService.status
 		self.secureServerStatus = app.secureTransferService?.status
 	}
