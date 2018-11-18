@@ -28,6 +28,8 @@
 		CA9DFC9A21861B770059AF60 /* Metrics.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA9DFC9921861B770059AF60 /* Metrics.swift */; };
 		CA9DFC9C218620CA0059AF60 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA9DFC9B218620CA0059AF60 /* Colors.swift */; };
 		CA9DFC9E21862C910059AF60 /* AppListBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA9DFC9D21862C910059AF60 /* AppListBuilder.swift */; };
+		CAA9EA6721A1FA5400AA69D0 /* MixpanelBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAA9EA6621A1FA5400AA69D0 /* MixpanelBuilder.swift */; };
+		CAA9EA6921A1FA7F00AA69D0 /* TransferBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAA9EA6821A1FA7F00AA69D0 /* TransferBuilder.swift */; };
 		CAEADA49218D4447009AC8A2 /* UIViewController+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAEADA48218D4447009AC8A2 /* UIViewController+Extensions.swift */; };
 		CAF31C3B218DFBF700E7689C /* MixpanelService.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAF31C3A218DFBF700E7689C /* MixpanelService.swift */; };
 		CAF31C3F218E4A0000E7689C /* Service.swift in Sources */ = {isa = PBXBuildFile; fileRef = CAF31C3E218E4A0000E7689C /* Service.swift */; };
@@ -56,6 +58,8 @@
 		CA9DFC9921861B770059AF60 /* Metrics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Metrics.swift; sourceTree = "<group>"; };
 		CA9DFC9B218620CA0059AF60 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		CA9DFC9D21862C910059AF60 /* AppListBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppListBuilder.swift; sourceTree = "<group>"; };
+		CAA9EA6621A1FA5400AA69D0 /* MixpanelBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MixpanelBuilder.swift; sourceTree = "<group>"; };
+		CAA9EA6821A1FA7F00AA69D0 /* TransferBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransferBuilder.swift; sourceTree = "<group>"; };
 		CAEADA48218D4447009AC8A2 /* UIViewController+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+Extensions.swift"; sourceTree = "<group>"; };
 		CAF31C3A218DFBF700E7689C /* MixpanelService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MixpanelService.swift; sourceTree = "<group>"; };
 		CAF31C3E218E4A0000E7689C /* Service.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Service.swift; sourceTree = "<group>"; };
@@ -196,6 +200,7 @@
 		CAFC0FE721A1C84D00BE1AA9 /* Mixpanel */ = {
 			isa = PBXGroup;
 			children = (
+				CAA9EA6621A1FA5400AA69D0 /* MixpanelBuilder.swift */,
 				CAF31C3A218DFBF700E7689C /* MixpanelService.swift */,
 			);
 			path = Mixpanel;
@@ -204,6 +209,7 @@
 		CAFC0FE821A1C85500BE1AA9 /* Transfer */ = {
 			isa = PBXGroup;
 			children = (
+				CAA9EA6821A1FA7F00AA69D0 /* TransferBuilder.swift */,
 				CA31538C21880D3700C7D9E0 /* TransferService.swift */,
 			);
 			path = Transfer;
@@ -290,8 +296,10 @@
 				CA3153952188AAD700C7D9E0 /* AppDetailsBuilder.swift in Sources */,
 				CA9DFC9C218620CA0059AF60 /* Colors.swift in Sources */,
 				CAF31C3B218DFBF700E7689C /* MixpanelService.swift in Sources */,
+				CAA9EA6721A1FA5400AA69D0 /* MixpanelBuilder.swift in Sources */,
 				CA3153932188A24D00C7D9E0 /* AppDetailsViewController.swift in Sources */,
 				CA31538D21880D3700C7D9E0 /* TransferService.swift in Sources */,
+				CAA9EA6921A1FA7F00AA69D0 /* TransferBuilder.swift in Sources */,
 				CA3153A0218928E700C7D9E0 /* SpacerCell.swift in Sources */,
 				CA9DFC98218617C70059AF60 /* AppItemCell.swift in Sources */,
 				CA7BE84E2186068D0002F8A2 /* AppDelegate.swift in Sources */,
