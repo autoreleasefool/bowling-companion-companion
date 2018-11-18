@@ -99,7 +99,7 @@ extension TransferService {
 		var cells: [CellConfigType] = [
 			SectionHeaderCell(
 				key: "header",
-				style: CellStyle(topSeparator: .full, separatorColor: Colors.divider, highlight: true, selectionColor: Colors.primaryLight, backgroundColor: Colors.primaryDark),
+				style: CellStyle(topSeparator: .full, separatorColor: Colors.divider),
 				state: SectionHeaderCellState(title: sectionTitle),
 				cellUpdater: SectionHeaderCellState.updateView
 			)

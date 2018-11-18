@@ -17,7 +17,7 @@ class SectionHeaderCellView: UIView {
 	override init(frame: CGRect) {
 		super.init(frame: frame)
 
-		backgroundColor = Colors.primaryDark
+		backgroundColor = Colors.primaryLight
 
 		titleLabel.translatesAutoresizingMaskIntoConstraints = false
 		iconView.translatesAutoresizingMaskIntoConstraints = false
