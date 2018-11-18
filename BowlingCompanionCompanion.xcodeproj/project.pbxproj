@@ -186,11 +186,27 @@
 		CA9DFC96218617AD0059AF60 /* Services */ = {
 			isa = PBXGroup;
 			children = (
-				CAF31C3A218DFBF700E7689C /* MixpanelService.swift */,
-				CA31538C21880D3700C7D9E0 /* TransferService.swift */,
+				CAFC0FE721A1C84D00BE1AA9 /* Mixpanel */,
+				CAFC0FE821A1C85500BE1AA9 /* Transfer */,
 				CAF31C3E218E4A0000E7689C /* Service.swift */,
 			);
 			path = Services;
+			sourceTree = "<group>";
+		};
+		CAFC0FE721A1C84D00BE1AA9 /* Mixpanel */ = {
+			isa = PBXGroup;
+			children = (
+				CAF31C3A218DFBF700E7689C /* MixpanelService.swift */,
+			);
+			path = Mixpanel;
+			sourceTree = "<group>";
+		};
+		CAFC0FE821A1C85500BE1AA9 /* Transfer */ = {
+			isa = PBXGroup;
+			children = (
+				CA31538C21880D3700C7D9E0 /* TransferService.swift */,
+			);
+			path = Transfer;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
