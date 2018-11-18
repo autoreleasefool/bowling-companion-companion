@@ -13,7 +13,6 @@ class AppItemCellView: UIView {
 	fileprivate let imageView = UIImageView()
 	fileprivate let titleLabel = UILabel()
 	fileprivate let dauLabel = UILabel()
-	fileprivate let crashesLabel = UILabel()
 	fileprivate let statusLabel = UILabel()
 	fileprivate let secureStatusLabel = UILabel()
 
@@ -31,10 +30,6 @@ class AppItemCellView: UIView {
 		dauLabel.font = UIFont(name: dauLabel.font.fontName, size: Metrics.TextSize.body)
 		dauLabel.translatesAutoresizingMaskIntoConstraints = false
 
-		crashesLabel.textColor = Colors.dangerRed
-		crashesLabel.font = UIFont(name: crashesLabel.font.fontName, size: Metrics.TextSize.body)
-		crashesLabel.translatesAutoresizingMaskIntoConstraints = false
-
 		statusLabel.font = UIFont(name: statusLabel.font.fontName, size: Metrics.TextSize.body)
 		statusLabel.translatesAutoresizingMaskIntoConstraints = false
 
@@ -44,7 +39,6 @@ class AppItemCellView: UIView {
 		addSubview(imageView)
 		addSubview(titleLabel)
 		addSubview(dauLabel)
-		addSubview(crashesLabel)
 		addSubview(statusLabel)
 		addSubview(secureStatusLabel)
 
@@ -62,10 +56,7 @@ class AppItemCellView: UIView {
 			dauLabel.leadingAnchor.constraint(equalTo: imageView.trailingAnchor, constant: Metrics.Spacing.base),
 			dauLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: Metrics.Spacing.small),
 
-			crashesLabel.leadingAnchor.constraint(equalTo: dauLabel.trailingAnchor, constant: Metrics.Spacing.large),
-			crashesLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: Metrics.Spacing.small),
-
-			statusLabel.leadingAnchor.constraint(equalTo: crashesLabel.trailingAnchor, constant: Metrics.Spacing.large),
+			statusLabel.leadingAnchor.constraint(equalTo: dauLabel.trailingAnchor, constant: Metrics.Spacing.large),
 			statusLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: Metrics.Spacing.small),
 
 			secureStatusLabel.leadingAnchor.constraint(equalTo: statusLabel.trailingAnchor, constant: Metrics.Spacing.large),
@@ -81,7 +72,6 @@ class AppItemCellView: UIView {
 		imageView.image = nil
 		titleLabel.text = nil
 		dauLabel.text = nil
-		crashesLabel.text = nil
 		statusLabel.text = nil
 	}
 }
@@ -90,7 +80,6 @@ struct AppItemCellState: Equatable {
 	private let appIcon: UIImage
 	private let appName: String
 	private let dailyActiveUsers: Int
-	private let crashes: Int
 	private let serverStatus: TransferService.Status
 	private let secureServerStatus: TransferService.Status?
 
@@ -98,7 +87,6 @@ struct AppItemCellState: Equatable {
 		self.appIcon = app.icon
 		self.appName = app.name
 		self.dailyActiveUsers = app.mixpanelService.dailyActiveUsers
-		self.crashes = app.bugsnagService.dailyCrashes
 		self.serverStatus = app.transferService.status
 		self.secureServerStatus = app.secureTransferService?.status
 	}
@@ -112,7 +100,6 @@ struct AppItemCellState: Equatable {
 		view.imageView.image = state.appIcon
 		view.titleLabel.text = state.appName
 		view.dauLabel.text = "\(state.dailyActiveUsers) DAU"
-		view.crashesLabel.text = "\(state.crashes) crashes"
 		view.statusLabel.textColor = state.serverStatus.color
 		view.statusLabel.text = state.serverStatus.rawValue
 
@@ -129,7 +116,6 @@ struct AppItemCellState: Equatable {
 		return lhs.appName == rhs.appName &&
 			lhs.appIcon == rhs.appIcon &&
 			lhs.dailyActiveUsers == rhs.dailyActiveUsers &&
-			lhs.crashes == rhs.crashes &&
 			lhs.serverStatus == rhs.serverStatus &&
 			lhs.secureServerStatus == rhs.secureServerStatus
 	}
