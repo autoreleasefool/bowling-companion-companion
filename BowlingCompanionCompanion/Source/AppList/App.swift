@@ -16,6 +16,7 @@ struct App: Decodable {
 		case transferServer = "TransferServer"
 		case secureTransferServer = "SecureTransferServer"
 		case mixpanel = "Mixpanel"
+		case admob = "Admob"
 	}
 
 	let id: String
@@ -37,6 +38,11 @@ struct App: Decodable {
 		return _mixpanelService
 	}
 
+	private var _admobService: AdmobService
+	var admobService: AdmobService {
+		return _admobService
+	}
+
 	var services: [Service] {
 		var services: [Service] = []
 		if let secureTransferService = secureTransferService {
@@ -44,6 +50,7 @@ struct App: Decodable {
 		}
 		services.append(transferService)
 		services.append(mixpanelService)
+		services.append(admobService)
 		return services
 	}
 
@@ -66,5 +73,9 @@ struct App: Decodable {
 		let mixpanelContainer = try container.nestedContainer(keyedBy: MixpanelService.Config.CodingKeys.self, forKey: .mixpanel)
 		let mixpanelConfig = try MixpanelService.Config(from: mixpanelContainer)
 		self._mixpanelService = MixpanelService(config: mixpanelConfig)
+
+		let admobContainer = try container.nestedContainer(keyedBy: AdmobService.Config.CodingKeys.self, forKey: .admob)
+		let admobConfig = try AdmobService.Config(from: admobContainer)
+		self._admobService = AdmobService(config: admobConfig)
 	}
 }
