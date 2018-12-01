@@ -10,8 +10,16 @@ import Foundation
 import FunctionalTableData
 
 class MixpanelService: Service {
-	struct Config {
+	struct Config: Decodable {
+		enum CodingKeys: String, CodingKey {
+			case apiKey = "ApiKey"
+		}
+
 		let apiKey: String
+
+		init(from container: KeyedDecodingContainer<CodingKeys>) throws {
+			apiKey = try container.decode(String.self, forKey: .apiKey)
+		}
 	}
 
 	let config: Config

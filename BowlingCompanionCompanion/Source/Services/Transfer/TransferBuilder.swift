@@ -11,7 +11,7 @@ import FunctionalTableData
 struct TransferBuilder {
 	static func section(service: TransferService) -> TableSection {
 		var sectionTitle: String = "Transfer service"
-		if service.config.isSecure {
+		if service.isSecure {
 			sectionTitle += " (SSL)"
 		}
 

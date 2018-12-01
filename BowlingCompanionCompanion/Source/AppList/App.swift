@@ -13,11 +13,9 @@ struct App: Decodable {
 		case id = "ID"
 		case name = "Name"
 		case iconName = "Icon"
-		case serverUrl = "ServerURL"
-		case serverApiKey = "ServerApiKey"
-		case secureServerUrl = "SecureServerURL"
-		case secureServerApiKey = "SecureServerApiKey"
-		case mixpanelApiKey = "MixpanelApiKey"
+		case transferServer = "TransferServer"
+		case secureTransferServer = "SecureTransferServer"
+		case mixpanel = "Mixpanel"
 	}
 
 	let id: String
@@ -55,17 +53,18 @@ struct App: Decodable {
 		self.name = try container.decode(String.self, forKey: .name)
 		self.icon = UIImage(named: try container.decode(String.self, forKey: .iconName))!
 
-		let serverUrl = try container.decode(String.self, forKey: .serverUrl)
-		let serverApiKey = try container.decode(String.self, forKey: .serverApiKey)
-		self._transferService = TransferService(config: TransferService.Config(url: serverUrl, apiKey: serverApiKey))
+		let transferContainer = try container.nestedContainer(keyedBy: TransferService.Config.CodingKeys.self, forKey: .transferServer)
+		let transferConfig = try TransferService.Config(from: transferContainer)
+		self._transferService = TransferService(config: transferConfig)
 
-		let mixpanelApiKey = try container.decode(String.self, forKey: .mixpanelApiKey)
-		self._mixpanelService = MixpanelService(config: MixpanelService.Config(apiKey: mixpanelApiKey))
-
-		let secureServerUrl = try container.decodeIfPresent(String.self, forKey: .secureServerUrl)
-		let secureServerApiKey = try container.decodeIfPresent(String.self, forKey: .secureServerApiKey)
-		if let url = secureServerUrl, let apiKey = secureServerApiKey {
-			self._secureTransferService = TransferService(config: TransferService.Config(url: url, apiKey: apiKey, isSecure: true))
+		if container.contains(.secureTransferServer) {
+			let secureTransferContainer = try container.nestedContainer(keyedBy: TransferService.Config.CodingKeys.self, forKey: .secureTransferServer)
+			let secureTransferConfig = try TransferService.Config(from: secureTransferContainer)
+			self._secureTransferService = TransferService(config: secureTransferConfig, isSecure: true)
 		}
+
+		let mixpanelContainer = try container.nestedContainer(keyedBy: MixpanelService.Config.CodingKeys.self, forKey: .mixpanel)
+		let mixpanelConfig = try MixpanelService.Config(from: mixpanelContainer)
+		self._mixpanelService = MixpanelService(config: mixpanelConfig)
 	}
 }

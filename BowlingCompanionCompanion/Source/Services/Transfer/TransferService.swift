@@ -10,20 +10,18 @@ import Foundation
 import FunctionalTableData
 
 class TransferService: Service {
-
-	struct Config {
-		let url: URL
-		let apiKey: String
-		let isSecure: Bool
-
-		init(url: URL, apiKey: String, isSecure: Bool = false) {
-			self.url = url
-			self.apiKey = apiKey
-			self.isSecure = isSecure
+	struct Config: Decodable {
+		enum CodingKeys: String, CodingKey {
+			case url = "URL"
+			case apiKey = "ApiKey"
 		}
 
-		init(url: String, apiKey: String, isSecure: Bool = false) {
-			self.init(url: URL(string: url)!, apiKey: apiKey, isSecure: isSecure)
+		let url: URL
+		let apiKey: String
+
+		init(from container: KeyedDecodingContainer<CodingKeys>) throws {
+			url = URL(string: try container.decode(String.self, forKey: .url))!
+			apiKey = try container.decode(String.self, forKey: .apiKey)
 		}
 	}
 
@@ -41,11 +39,13 @@ class TransferService: Service {
 	}
 
 	let config: Config
+	let isSecure: Bool
 	private(set) var status: Status? = nil
 	private(set) var endpoints: [Endpoint]? = nil
 
-	init(config: Config) {
+	init(config: Config, isSecure: Bool = false) {
 		self.config = config
+		self.isSecure = isSecure
 	}
 
 	private var statusEndpoint: URL {
