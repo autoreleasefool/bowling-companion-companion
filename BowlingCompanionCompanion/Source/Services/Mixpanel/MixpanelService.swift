@@ -10,13 +10,17 @@ import Foundation
 import FunctionalTableData
 
 class MixpanelService: Service {
-	let apiKey: String
+	struct Config {
+		let apiKey: String
+	}
+
+	let config: Config
 
 	private(set) var dailyActiveUsers: Int? = nil
 	private(set) var monthlyActiveUsers: Int? = nil
 
 	private var url: URL {
-		return URL(string: "https://\(apiKey):@mixpanel.com/api/2.0/jql")!
+		return URL(string: "https://\(config.apiKey):@mixpanel.com/api/2.0/jql")!
 	}
 
 	private var dailyActiveUsersQuery: String {
@@ -57,8 +61,8 @@ class MixpanelService: Service {
 			"""
 	}
 
-	init(apiKey: String) {
-		self.apiKey = apiKey
+	init(config: Config) {
+		self.config = config
 	}
 
 	private func buildURLRequest(for script: String) -> URLRequest {

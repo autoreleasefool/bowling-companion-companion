@@ -43,6 +43,6 @@ struct MixpanelBuilder {
 
 		cells.append(SpacerCell(key: "spacer", state: SpacerState(height: Metrics.Spacing.large), cellUpdater: SpacerState.updateView))
 
-		return TableSection(key: "usage-\(service.apiKey)", rows: cells)
+		return TableSection(key: "usage-\(service.config.apiKey)", rows: cells)
 	}
 }

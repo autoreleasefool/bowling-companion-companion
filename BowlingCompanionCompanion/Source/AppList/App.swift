@@ -22,23 +22,14 @@ struct App: Decodable {
 
 	let id: String
 	let name: String
-	let iconName: String
-	let serverUrl: String
-	let serverApiKey: String
-	let secureServerUrl: String?
-	let secureServerApiKey: String?
-	let mixpanelApiKey: String
-
-	var icon: UIImage {
-		return UIImage(named: iconName)!
-	}
+	let icon: UIImage
 
 	private var _transferService: TransferService
 	var transferService: TransferService {
 		return _transferService
 	}
 
-	private var _secureTransferService: TransferService?
+	private var _secureTransferService: TransferService? = nil
 	var secureTransferService: TransferService? {
 		return _secureTransferService
 	}
@@ -62,20 +53,19 @@ struct App: Decodable {
 		let container = try decoder.container(keyedBy: CodingKeys.self)
 		self.id = try container.decode(String.self, forKey: .id)
 		self.name = try container.decode(String.self, forKey: .name)
-		self.iconName = try container.decode(String.self, forKey: .iconName)
-		self.serverUrl = try container.decode(String.self, forKey: .serverUrl)
-		self.serverApiKey = try container.decode(String.self, forKey: .serverApiKey)
-		self.mixpanelApiKey = try container.decode(String.self, forKey: .mixpanelApiKey)
+		self.icon = UIImage(named: try container.decode(String.self, forKey: .iconName))!
 
-		self._transferService = TransferService(url: serverUrl, apiKey: serverApiKey)
-		self._mixpanelService = MixpanelService(apiKey: mixpanelApiKey)
+		let serverUrl = try container.decode(String.self, forKey: .serverUrl)
+		let serverApiKey = try container.decode(String.self, forKey: .serverApiKey)
+		self._transferService = TransferService(config: TransferService.Config(url: serverUrl, apiKey: serverApiKey))
 
-		self.secureServerUrl = try container.decodeIfPresent(String.self, forKey: .secureServerUrl)
-		self.secureServerApiKey = try container.decodeIfPresent(String.self, forKey: .secureServerApiKey)
-		if let url = self.secureServerUrl, let apiKey = self.secureServerApiKey {
-			self._secureTransferService = TransferService(url: url, apiKey: apiKey, isSecure: true)
-		} else {
-			self._secureTransferService = nil
+		let mixpanelApiKey = try container.decode(String.self, forKey: .mixpanelApiKey)
+		self._mixpanelService = MixpanelService(config: MixpanelService.Config(apiKey: mixpanelApiKey))
+
+		let secureServerUrl = try container.decodeIfPresent(String.self, forKey: .secureServerUrl)
+		let secureServerApiKey = try container.decodeIfPresent(String.self, forKey: .secureServerApiKey)
+		if let url = secureServerUrl, let apiKey = secureServerApiKey {
+			self._secureTransferService = TransferService(config: TransferService.Config(url: url, apiKey: apiKey, isSecure: true))
 		}
 	}
 }

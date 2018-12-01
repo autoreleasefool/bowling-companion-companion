@@ -11,6 +11,22 @@ import FunctionalTableData
 
 class TransferService: Service {
 
+	struct Config {
+		let url: URL
+		let apiKey: String
+		let isSecure: Bool
+
+		init(url: URL, apiKey: String, isSecure: Bool = false) {
+			self.url = url
+			self.apiKey = apiKey
+			self.isSecure = isSecure
+		}
+
+		init(url: String, apiKey: String, isSecure: Bool = false) {
+			self.init(url: URL(string: url)!, apiKey: apiKey, isSecure: isSecure)
+		}
+	}
+
 	enum Status: String {
 		case online = "Online"
 		case offline = "Offline"
@@ -24,26 +40,21 @@ class TransferService: Service {
 		let status: Bool
 	}
 
-	let url: URL
-	let apiKey: String
-	let isSecure: Bool
-
+	let config: Config
 	private(set) var status: Status? = nil
 	private(set) var endpoints: [Endpoint]? = nil
 
-	init(url: String, apiKey: String, isSecure: Bool = false) {
-		self.url = URL(string: url)!
-		self.apiKey = apiKey
-		self.isSecure = isSecure
+	init(config: Config) {
+		self.config = config
 	}
 
 	private var statusEndpoint: URL {
-		return URL(string: "api", relativeTo: url)!
+		return URL(string: "api", relativeTo: config.url)!
 	}
 
 	private func buildURLRequest(for url: URL) -> URLRequest {
 		var urlRequest = URLRequest(url: url)
-		urlRequest.addValue(apiKey, forHTTPHeaderField: "Authorization")
+		urlRequest.addValue(config.apiKey, forHTTPHeaderField: "Authorization")
 		urlRequest.setValue("application/json", forHTTPHeaderField: "Accept")
 		return urlRequest
 	}

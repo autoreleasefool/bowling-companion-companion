@@ -11,7 +11,7 @@ import FunctionalTableData
 struct TransferBuilder {
 	static func section(service: TransferService) -> TableSection {
 		var sectionTitle: String = "Transfer service"
-		if service.isSecure {
+		if service.config.isSecure {
 			sectionTitle += " (SSL)"
 		}
 
@@ -50,6 +50,6 @@ struct TransferBuilder {
 
 		cells.append(SpacerCell(key: "spacer", state: SpacerState(height: Metrics.Spacing.large), cellUpdater: SpacerState.updateView))
 
-		return TableSection(key: "\(service.apiKey)", rows: cells)
+		return TableSection(key: "\(service.config.apiKey)", rows: cells)
 	}
 }
