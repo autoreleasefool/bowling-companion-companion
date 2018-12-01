@@ -24,14 +24,16 @@ struct TransferBuilder {
 			)
 		]
 
-		service.endpoints.forEach { endpoint in
-			let backgroundColor = endpoint.status ? Colors.affirmativeGreen : Colors.dangerRed
-			cells.append(PaddedLabelCell(
-				key: endpoint.name,
-				style: CellStyle(bottomSeparator: .inset, separatorColor: Colors.divider),
-				state: LabelState(text: endpoint.name, textColor: Colors.Text.primaryWhite, backgroundColor: backgroundColor),
-				cellUpdater: LabelState.updateView
-			))
+		if let endpoints = service.endpoints {
+			endpoints.forEach { endpoint in
+				let backgroundColor = endpoint.status ? Colors.affirmativeGreen : Colors.dangerRed
+				cells.append(PaddedLabelCell(
+					key: endpoint.name,
+					style: CellStyle(bottomSeparator: .inset, separatorColor: Colors.divider),
+					state: LabelState(text: endpoint.name, textColor: Colors.Text.primaryWhite, backgroundColor: backgroundColor),
+					cellUpdater: LabelState.updateView
+				))
+			}
 		}
 
 		if cells.count <= 1 {

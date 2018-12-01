@@ -27,8 +27,10 @@ struct AppListBuilder {
 			)
 		}
 
-		appCells[appCells.endIndex - 1].style?.bottomSeparator = .full
-		appCells[appCells.endIndex - 1].style?.separatorColor = Colors.divider
+		if appCells.count > 0 {
+			appCells[appCells.endIndex - 1].style?.bottomSeparator = .full
+			appCells[appCells.endIndex - 1].style?.separatorColor = Colors.divider
+		}
 
 		return [TableSection(key: "apps", rows: appCells)]
 	}

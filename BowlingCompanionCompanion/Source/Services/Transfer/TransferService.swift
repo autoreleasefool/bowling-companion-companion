@@ -28,8 +28,8 @@ class TransferService: Service {
 	let apiKey: String
 	let isSecure: Bool
 
-	private(set) var status: Status = .waiting
-	private(set) var endpoints: [Endpoint] = []
+	private(set) var status: Status? = nil
+	private(set) var endpoints: [Endpoint]? = nil
 
 	init(url: String, apiKey: String, isSecure: Bool = false) {
 		self.url = URL(string: url)!
@@ -49,6 +49,8 @@ class TransferService: Service {
 	}
 
 	func query(delegate: URLSessionDelegate, completion: @escaping () -> Void) {
+		status = .waiting
+		endpoints = []
 		queryStatus(urlSessionDelegate: delegate, completion: completion)
 	}
 

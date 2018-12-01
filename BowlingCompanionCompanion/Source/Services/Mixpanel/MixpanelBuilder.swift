@@ -10,31 +10,39 @@ import FunctionalTableData
 
 struct MixpanelBuilder {
 	static func section(service: MixpanelService) -> TableSection {
-		let headerLabel = SectionHeaderCell(
+		var cells: [CellConfigType] = []
+
+		cells.append(SectionHeaderCell(
 			key: "header",
 			style: CellStyle(topSeparator: .full, separatorColor: Colors.divider),
 			state: SectionHeaderCellState(title: "Usage"),
 			cellUpdater: SectionHeaderCellState.updateView
-		)
+		))
 
-		let dauLabel = PaddedLabelCell(
-			key: "dau",
-			style: CellStyle(bottomSeparator: .inset, separatorColor: Colors.divider),
-			state: LabelState(text: "\(service.dailyActiveUsers) daily active users"),
-			cellUpdater: LabelState.updateView
-		)
-		let mauLabel = PaddedLabelCell(
-			key: "mau",
-			style: CellStyle(bottomSeparator: .full, separatorColor: Colors.divider),
-			state: LabelState(text: "\(service.monthlyActiveUsers) monthly active users"),
-			cellUpdater: LabelState.updateView
-		)
+		if let dau = service.dailyActiveUsers, let mau = service.monthlyActiveUsers {
+			cells.append(PaddedLabelCell(
+				key: "dau",
+				style: CellStyle(bottomSeparator: .inset, separatorColor: Colors.divider),
+				state: LabelState(text: "\(dau) daily active users"),
+				cellUpdater: LabelState.updateView
+			))
+			cells.append(PaddedLabelCell(
+				key: "mau",
+				style: CellStyle(bottomSeparator: .full, separatorColor: Colors.divider),
+				state: LabelState(text: "\(mau) monthly active users"),
+				cellUpdater: LabelState.updateView
+			))
+		} else {
+			cells.append(PaddedLabelCell(
+				key: "no-data",
+				style: CellStyle(bottomSeparator: .full, separatorColor: Colors.divider),
+				state: LabelState(text: "Service unavailable"),
+				cellUpdater: LabelState.updateView
+			))
+		}
 
-		return TableSection(key: "usage-\(service.apiKey)", rows: [
-			headerLabel,
-			dauLabel,
-			mauLabel,
-			SpacerCell(key: "spacer", state: SpacerState(height: Metrics.Spacing.large), cellUpdater: SpacerState.updateView)
-			])
+		cells.append(SpacerCell(key: "spacer", state: SpacerState(height: Metrics.Spacing.large), cellUpdater: SpacerState.updateView))
+
+		return TableSection(key: "usage-\(service.apiKey)", rows: cells)
 	}
 }

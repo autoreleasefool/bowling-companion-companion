@@ -79,8 +79,8 @@ class AppItemCellView: UIView {
 struct AppItemCellState: Equatable {
 	private let appIcon: UIImage
 	private let appName: String
-	private let dailyActiveUsers: Int
-	private let serverStatus: TransferService.Status
+	private let dailyActiveUsers: Int?
+	private let serverStatus: TransferService.Status?
 	private let secureServerStatus: TransferService.Status?
 
 	init(app: App) {
@@ -99,9 +99,20 @@ struct AppItemCellState: Equatable {
 
 		view.imageView.image = state.appIcon
 		view.titleLabel.text = state.appName
-		view.dauLabel.text = "\(state.dailyActiveUsers) DAU"
-		view.statusLabel.textColor = state.serverStatus.color
-		view.statusLabel.text = state.serverStatus.rawValue
+
+		if let dau = state.dailyActiveUsers {
+			view.dauLabel.text = "\(dau) DAU"
+		} else {
+			view.dauLabel.text = "N/A"
+		}
+
+		if let serverStatus = state.serverStatus {
+			view.statusLabel.textColor = serverStatus.color
+			view.statusLabel.text = serverStatus.rawValue
+		} else {
+			view.statusLabel.textColor = Colors.dangerRed
+			view.statusLabel.text = "Unreachable"
+		}
 
 		if let secureServerStatus = state.secureServerStatus {
 			view.secureStatusLabel.textColor = secureServerStatus.color

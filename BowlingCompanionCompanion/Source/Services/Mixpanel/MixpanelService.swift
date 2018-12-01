@@ -12,8 +12,8 @@ import FunctionalTableData
 class MixpanelService: Service {
 	let apiKey: String
 
-	private(set) var dailyActiveUsers: Int = 0
-	private(set) var monthlyActiveUsers: Int = 0
+	private(set) var dailyActiveUsers: Int? = nil
+	private(set) var monthlyActiveUsers: Int? = nil
 
 	private var url: URL {
 		return URL(string: "https://\(apiKey):@mixpanel.com/api/2.0/jql")!
