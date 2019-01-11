@@ -9,15 +9,38 @@
 		<string>5 Pin Bowling Companion</string>
 		<key>Icon</key>
 		<string>FivePin</string>
-		<key>ServerURL</key>
-		<string>TRANSFER_SERVER_URL</string>
-		<key>ServerApiKey</key>
-		<string>TRANSFER_SERVER_KEY</string>
-		<key>MixpanelApiKey</key>
-		<string>MIXPANEL_API_KEY</string>
-		<key>BugsnagApiKey</key>
-		<string>BUGSNAG_API_KEY</string>
+		<key>TransferServer</key>
+		<dict>
+			<key>ApiKey</key>
+			<string>TRANSFER_API_KEY</string>
+			<key>URL</key>
+			<string>TRANSFER_SERVER_URL</string>
+		</dict>
+		<key>SecureTransferServer</key>
+		<dict>
+			<key>ApiKey</key>
+			<string>SECURE_TRANSFER_API_KEY</string>
+			<key>URL</key>
+			<string>SECURE_TRANSFER_SERVER_URL</string>
+		</dict>
+		<key>Mixpanel</key>
+		<dict>
+			<key>ApiKey</key>
+			<string>MIXPANEL_API_KEY</string>
+		</dict>
+		<key>Admob</key>
+		<dict>
+			<key>PublisherID</key>
+			<string>ADMOB_PUBLISHER_ID</string>
+			<key>ClientID</key>
+			<string>ADMOB_CLIENT_ID</string>
+			<key>UnitIDs</key>
+			<array>
+				<string>ADMOB_UNIT_IDS</string>
+			</array>
+		</dict>
 	</dict>
+
 	<dict>
 		<key>ID</key>
 		<string>TEN_PIN_APP_ID</string>
@@ -25,14 +48,36 @@
 		<string>10 Pin Bowling Companion</string>
 		<key>Icon</key>
 		<string>TenPin</string>
-		<key>ServerURL</key>
-		<string>TRANSFER_SERVER_URL</string>
-		<key>ServerApiKey</key>
-		<string>TRANSFER_SERVER_KEY</string>
-		<key>MixpanelApiKey</key>
-		<string>MIXPANEL_API_KEY</string>
-		<key>BugsnagApiKey</key>
-		<string>BUGSNAG_API_KEY</string>
+		<key>TransferServer</key>
+		<dict>
+			<key>ApiKey</key>
+			<string>TRANSFER_API_KEY</string>
+			<key>URL</key>
+			<string>TRANSFER_SERVER_URL</string>
+		</dict>
+		<key>SecureTransferServer</key>
+		<dict>
+			<key>ApiKey</key>
+			<string>SECURE_TRANSFER_API_KEY</string>
+			<key>URL</key>
+			<string>SECURE_TRANSFER_SERVER_URL</string>
+		</dict>
+		<key>Mixpanel</key>
+		<dict>
+			<key>ApiKey</key>
+			<string>MIXPANEL_API_KEY</string>
+		</dict>
+		<key>Admob</key>
+		<dict>
+			<key>PublisherID</key>
+			<string>ADMOB_PUBLISHER_ID</string>
+			<key>ClientID</key>
+			<string>ADMOB_CLIENT_ID</string>
+			<key>UnitIDs</key>
+			<array>
+				<string>ADMOB_UNIT_IDS</string>
+			</array>
+		</dict>
 	</dict>
 </array>
 </plist>
